@@ -1,10 +1,3 @@
-/* ==== ESTILOS GENERALES ==== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
   padding: 20px;
@@ -13,7 +6,7 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 .container {
@@ -90,16 +83,33 @@ h1 {
   left: 0;
   width: 5px;
   height: 100%;
-  background: linear-gradient(180deg, #667eea, #764ba2);
 }
 
 /* ==== COLORES DE SECCIONES ==== */
-.menu-item.chatbot::before { background: linear-gradient(180deg, #11998e, #38ef7d); }
-.menu-item.info::before { background: linear-gradient(180deg, #ee0979, #ff6a00); }
-.menu-item.servicios::before { background: linear-gradient(180deg, #4facfe, #00f2fe); }
-.menu-item.recetas::before { background: linear-gradient(180deg, #fa709a, #fee140); }
-.menu-item.biblioteca::before { background: linear-gradient(180deg, #30cfd0, #330867); }
-.menu-item.config::before { background: linear-gradient(180deg, #a8edea, #fed6e3); }
+
+.menu-item.chatbot::before {
+  background: linear-gradient(180deg, #11998e, #38ef7d);
+}
+
+.menu-item.info::before {
+  background: linear-gradient(180deg, #ee0979, #ff6a00);
+}
+
+.menu-item.servicios::before {
+  background: linear-gradient(180deg, #4facfe, #00f2fe);
+}
+
+.menu-item.recetas::before {
+  background: linear-gradient(180deg, #fa709a, #fee140);
+}
+
+.menu-item.biblioteca::before {
+  background: linear-gradient(180deg, #30cfd0, #330867);
+}
+
+.menu-item.config::before {
+  background: linear-gradient(180deg, #a8edea, #fed6e3);
+}
 
 .icon {
   font-size: 2.5em;
@@ -152,7 +162,8 @@ footer {
 @media (max-width: 768px) {
   body {
     padding: 15px;
-    font-size: 15px; /* un poco más pequeño pero legible */
+    font-size: 15px;
+    /* un poco más pequeño pero legible */
   }
 
   header {
@@ -183,7 +194,8 @@ footer {
 @media (max-width: 480px) {
   body {
     padding: 10px;
-    font-size: 14px; /* base un poco más grande para buena lectura */
+    font-size: 14px;
+    /* base un poco más grande para buena lectura */
     line-height: 1.6;
   }
 
@@ -192,7 +204,8 @@ footer {
   }
 
   h1 {
-    font-size: 1.7em; /* título más grande en móvil */
+    font-size: 1.7em;
+    /* título más grande en móvil */
   }
 
   .subtitle {
@@ -218,7 +231,8 @@ footer {
   }
 
   .menu-item p {
-    font-size: 1em; /* sube un poco el texto de descripción */
+    font-size: 1em;
+    /* sube un poco el texto de descripción */
   }
 
   .icon {
@@ -230,5 +244,3 @@ footer {
     font-size: 0.95em;
   }
 }
-
-

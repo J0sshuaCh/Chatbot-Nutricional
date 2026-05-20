@@ -9,25 +9,30 @@ export default function MenuItem({ icon, title, description, type }) {
     );
   };
 
-  if (title === "Chatbot ANMI") {
-    
+  // Determinar si el título tiene una ruta activa
+  const rutasActivas = {
+    "Chatbot ANMI": "/chatbot",
+    "Información Nutricional": "/informacion-nutricional",
+  };
+
+  // Si el título está en rutas activas, se muestra como Link
+  if (rutasActivas[title]) {
     return (
-      <Link to="/chatbot" className={`menu-item ${type}`}>
+      <Link to={rutasActivas[title]} className={`menu-item ${type}`}>
         <div className="icon">{icon}</div>
         <h2>{title}</h2>
         <p>{description}</p>
       </Link>
     );
-
-  } else {
-    
-    return (
-      <div className={`menu-item ${type}`} onClick={mostrarSeccion}>
-        <div className="icon">{icon}</div>
-        <h2>{title}</h2>
-        <p>{description}</p>
-        <span className="status desarrollo">En desarrollo</span>
-      </div>
-    );
   }
+
+  // Si no está en rutas activas, se muestra como "En desarrollo"
+  return (
+    <div className={`menu-item ${type}`} onClick={mostrarSeccion}>
+      <div className="icon">{icon}</div>
+      <h2>{title}</h2>
+      <p>{description}</p>
+      <span className="status desarrollo">En desarrollo</span>
+    </div>
+  );
 }
