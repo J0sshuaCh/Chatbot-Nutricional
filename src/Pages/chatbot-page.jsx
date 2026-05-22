@@ -85,10 +85,12 @@ export default function ChatbotPage() {
                     // Estilo para negritas (**texto**)
                     strong: ({ node, ...props }) => <span className="font-bold" {...props} />,
                     // Estilo para listas ( * elemento)
-                    ul: ({ node, ...props }) => <ul className="list-disc list-inside ml-1" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="list-decimal list-inside ml-1" {...props} />,
+                    ul: ({ node, ...props }) => (
+                      <ul className="list-none pl-0 mb-2 space-y-1 [&_ul]:list-disc [&_ul]:pl-5" {...props} />
+                    ),
+                    ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-2 space-y-1" {...props} />,
                     // Estilo para elementos de lista
-                    li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                    li: ({ node, ...props }) => <li className="pl-1" {...props} />,
                     // Estilo para párrafos
                     p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />
                   }}
