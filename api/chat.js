@@ -1,95 +1,58 @@
-import { GoogleGenerativeAI } from "@google/generative-ai"
-import fs from "fs"
-import path from "path"
-import { fileURLToPath } from "url"
-import { createRequire } from "module"
-const require = createRequire(import.meta.url)
-
-const pdfParse = require("pdf-parse")
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+// Archivo: api/chat.js
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import fs from "fs";
+import path from "path";
 
 // Inicializar el cliente de API
-// Asegúrate de agregar GEMINI_API_KEY en la sección "Vars" de la barra lateral
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "")
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 export default async function handler(req, res) {
   // Solo permitir peticiones POST
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" })
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { prompt } = req.body
+    const { prompt } = req.body;
 
     if (!prompt) {
-      return res.status(400).json({ error: "No prompt provided" })
+      return res.status(400).json({ error: "No prompt provided" });
     }
 
-    // Verificar API Key
     if (!process.env.GEMINI_API_KEY) {
       return res.status(500).json({
-        error: "API Key not configured. Please add GEMINI_API_KEY in the Vars section.",
-      })
+        error: "API Key not configured.",
+      });
     }
 
-    // --- LÓGICA PARA LEER PDFs ---
-    let contextText = ""
+    // --- LÓGICA NUEVA: LEER EL JSON (RAPIDÍSIMO) ---
+    let contextText = "";
+
     try {
-      const possiblePaths = [
-        path.join(__dirname, "documents"), // Relative to this file
-        path.join(process.cwd(), "api", "documents"), // From project root
-        path.join(process.cwd(), "documents"), // Fallback
-      ]
+      // Buscamos el archivo data.json que generaste
+      const jsonPath = path.join(process.cwd(), 'api', 'data.json');
+      
+      if (fs.existsSync(jsonPath)) {
+        // Leemos el archivo JSON
+        const rawData = fs.readFileSync(jsonPath, 'utf8');
+        const knowledgeBase = JSON.parse(rawData);
 
-      let documentsDir = null
-      for (const p of possiblePaths) {
-        console.log(`[PDF DEBUG] Checking path: ${p}`)
-        if (fs.existsSync(p)) {
-          documentsDir = p
-          console.log(`[PDF DEBUG] Found documents directory at: ${p}`)
-          break
-        }
-      }
-
-      if (documentsDir) {
-        const files = fs.readdirSync(documentsDir)
-        const pdfFiles = files.filter((file) => file.toLowerCase().endsWith(".pdf"))
-
-        console.log(`[PDF DEBUG] Found ${pdfFiles.length} PDF files:`, pdfFiles)
-
-        for (const file of pdfFiles) {
-          const filePath = path.join(documentsDir, file)
-          const dataBuffer = fs.readFileSync(filePath)
-
-          try {
-            const data = await pdfParse(dataBuffer)
-            if (data && data.text) {
-              // Clean up text slightly to remove excessive whitespace
-              const cleanText = data.text.replace(/\s+/g, " ").trim()
-              contextText += `\n--- INICIO DOCUMENTO: ${file} ---\n${cleanText}\n--- FIN DOCUMENTO: ${file} ---\n`
-              console.log(`[PDF DEBUG] Read ${file}: ${cleanText.length} characters extracted`)
-            } else {
-              console.warn(`[PDF DEBUG] Warning: No text extracted from ${file}`)
-            }
-          } catch (parseError) {
-            console.error(`[PDF DEBUG] Error parsing ${file}:`, parseError)
-          }
-        }
-
-        console.log(`[PDF DEBUG] Total context length: ${contextText.length} characters`)
+        // Convertimos el JSON a texto para el Prompt
+        knowledgeBase.forEach(doc => {
+          contextText += `\n--- FUENTE: ${doc.fileName} ---\n${doc.content}\n`;
+        });
+        
+        console.log(`[JSON SUCCESS] Contexto cargado: ${knowledgeBase.length} documentos.`);
       } else {
-        console.error("[PDF DEBUG] CRITICAL: Documents directory not found in any expected location")
-        console.log("[PDF DEBUG] Current working directory:", process.cwd())
-        console.log("[PDF DEBUG] __dirname:", __dirname)
+        console.warn("[JSON WARNING] No se encontró api/data.json. Ejecuta 'node convert_pdfs.js' primero.");
+        contextText = "No hay información de contexto disponible en este momento.";
       }
     } catch (err) {
-      console.error("[PDF DEBUG] Fatal error in PDF reading block:", err)
-      // Continuamos aunque falle la lectura para no romper el chat completamente
+      console.error("[JSON ERROR] Error leyendo la base de datos:", err);
+      contextText = "Error al cargar la información de contexto.";
     }
 
-    // --- PREPARAR PROMPT ---
+    // --- PREPARAR PROMPT (Mantenemos tus reglas) ---
     const finalPrompt = `
     Eres un asistente inteligente del proyecto ANMI.
     Usa la siguiente información de contexto extraída de los documentos oficiales para responder a la pregunta del usuario.
@@ -106,17 +69,19 @@ export default async function handler(req, res) {
 
     PREGUNTA DEL USUARIO:
     ${prompt}
-    `
+    `;
+
+
 
     // --- LLAMADA A GEMINI ---
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
-    const result = await model.generateContent(finalPrompt)
-    const response = await result.response
-    const text = response.text()
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const result = await model.generateContent(finalPrompt);
+    const response = await result.response;
+    const text = response.text();
 
-    res.status(200).json({ text })
+    res.status(200).json({ text });
   } catch (error) {
-    console.error("Error calling Gemini API:", error)
-    res.status(500).json({ error: "Error interno del servidor: " + error.message })
+    console.error("Error calling Gemini API:", error);
+    res.status(500).json({ error: "Error interno del servidor: " + error.message });
   }
 }
