@@ -6,7 +6,7 @@ const servicios = [
     nombre: "Programa Qali Warma",
     descripcion:
       "Servicio alimentario escolar para niños y niñas de instituciones públicas.",
-    logo: "http://www.web.ugelcalca.gob.pe/images/archivos_2020/QALIWARMA/f417b7b1ac34c32aaea291f81137897a_1.jpg",
+    logo: "https://ugeltarma-junin.gob.pe/wp-content/uploads/2020/04/logo-solo-01-01.png",
     color: "bg-red-50"
   },
   {
