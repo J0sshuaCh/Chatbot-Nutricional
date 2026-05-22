@@ -13,6 +13,8 @@ export default function MenuItem({ icon, title, description, type }) {
   const rutasActivas = {
     "Chatbot ANMI": "/chatbot",
     "Información Nutricional": "/informacion-nutricional",
+    "Servicios del Estado": "/servicios-estado",
+    "Configuración y Privacidad": "/configuracion",
   };
 
   // Si el título está en rutas activas, se muestra como Link
@@ -20,7 +22,7 @@ export default function MenuItem({ icon, title, description, type }) {
     return (
       <Link to={rutasActivas[title]} className={`menu-item ${type}`}>
         <div className="icon">{icon}</div>
-        <h2>{title}</h2>
+        <h2 className="font-bold ">{title}</h2>
         <p>{description}</p>
       </Link>
     );
@@ -30,7 +32,7 @@ export default function MenuItem({ icon, title, description, type }) {
   return (
     <div className={`menu-item ${type}`} onClick={mostrarSeccion}>
       <div className="icon">{icon}</div>
-      <h2>{title}</h2>
+      <h2 className="font-bold ">{title}</h2>
       <p>{description}</p>
       <span className="status desarrollo">En desarrollo</span>
     </div>

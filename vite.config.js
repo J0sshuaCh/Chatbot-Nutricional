@@ -14,19 +14,24 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,png,svg,ico,json}']
       },
       manifest: {
-        name: 'My React App',
-        short_name: 'ReactApp',
-        description: 'My Awesome React Application',
+        name: 'ANMI - Asistente Nutricional Materno Infantil',
+        short_name: 'ANMI',
+        description: 'Información nutricional para prevenir la anemia infantil en bebés de 6 a 12 meses',
         start_url: '/',
         display: 'standalone',
         background_color: '#ffffff',
-        theme_color: '#ffffff',
+        theme_color: '#667eea',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: 'android-chrome-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
+          {
+            src: 'android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
           ]
         }
       }

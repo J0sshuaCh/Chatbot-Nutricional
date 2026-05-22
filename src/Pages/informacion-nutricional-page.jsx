@@ -11,7 +11,7 @@ export default function InformacionNutricional() {
       id: 1,
       nombre: "Sangrecita",
       categoria: "animal",
-      imagen: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=400&h=300&fit=crop",
+      imagen: "https://imgmedia.larepublica.pe/850x501/larepublica/original/2022/07/15/62d1ef83cf063b32bb72da89.webp",
       descripcion: "Uno de los alimentos con más hierro por porción y de muy buena absorción.",
       hierro: "~61 mg/100g",
       proteina: "~21 g/100g",
@@ -26,7 +26,7 @@ export default function InformacionNutricional() {
       id: 2,
       nombre: "Hígado de Pollo",
       categoria: "animal",
-      imagen: "https://images.unsplash.com/photo-1588347818036-c61c3c69b6d4?w=400&h=300&fit=crop",
+      imagen: "https://imag.bonviveur.com/higaditos-de-pollo-al-ajillo-con-perejil.webp",
       descripcion: "Denso en hierro hemo, vitamina A, B12 y folato.",
       hierro: "~12.9 mg/100g",
       proteina: "~25.8 g/100g",
@@ -41,7 +41,7 @@ export default function InformacionNutricional() {
       id: 3,
       nombre: "Carne de Res Magra",
       categoria: "animal",
-      imagen: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=400&h=300&fit=crop",
+      imagen: "https://bacaporarancho.mx/wp-content/uploads/2024/07/Carne-magra-de-res-870x500.webp",
       descripcion: "Hierro hemo de buena absorción, zinc y proteínas de alta calidad.",
       hierro: "~2-3 mg/100g",
       proteina: "~26 g/100g",
@@ -56,7 +56,7 @@ export default function InformacionNutricional() {
       id: 4,
       nombre: "Pollo (muslo/pechuga)",
       categoria: "animal",
-      imagen: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=400&h=300&fit=crop",
+      imagen: "https://tvazteca.brightspotcdn.com/dims4/default/bc6c1bf/2147483647/strip/true/crop/1280x728+0+0/resize/968x551!/format/webp/quality/90/?url=http%3A%2F%2Ftv-azteca-brightspot.s3.amazonaws.com%2F7a%2F8c%2Ffae101874a3cb1fb688d481b2991%2Fdiseno-sin-titulo.jpg",
       descripcion: "Hierro hemo y proteína de alta calidad, adecuado desde 6 meses.",
       hierro: "~0.8-1 mg/100g",
       proteina: "~27 g/100g",
@@ -71,7 +71,7 @@ export default function InformacionNutricional() {
       id: 5,
       nombre: "Pescados Azules (Anchoveta, Bonito)",
       categoria: "animal",
-      imagen: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop",
+      imagen: "https://portal.andina.pe/EDPfotografia/Thumbnail/2015/09/23/000315691W.jpg",
       descripcion: "Económicos, con hierro hemo, proteína y omega-3.",
       hierro: "~3-8.66 mg/100g",
       proteina: "~19-20 g/100g",
@@ -86,7 +86,7 @@ export default function InformacionNutricional() {
       id: 6,
       nombre: "Lentejas",
       categoria: "vegetal",
-      imagen: "https://images.unsplash.com/photo-1587486937699-5096d08c3f13?w=400&h=300&fit=crop",
+      imagen: "https://www.gastronomiavasca.net/uploads/image/file/4295/w700_lentejas.jpg",
       descripcion: "Legumbre económica con hierro no hemo, proteína y fibra.",
       hierro: "6.6 mg/taza",
       proteina: "17.9 g/taza",
@@ -101,7 +101,7 @@ export default function InformacionNutricional() {
       id: 7,
       nombre: "Frijoles/Frejoles",
       categoria: "vegetal",
-      imagen: "https://images.unsplash.com/photo-1589895139727-cfbf17fd61c0?w=400&h=300&fit=crop",
+       imagen: "https://imgmedia.buenazo.pe/640x371/buenazo/original/2021/05/04/60917b2f4fd7611159462e03.webp",
       descripcion: "Menestra con hierro no hemo y proteína, ideal en purés.",
       hierro: "5.1-6.6 mg/taza",
       proteina: "15 g/taza",
@@ -116,7 +116,7 @@ export default function InformacionNutricional() {
       id: 8,
       nombre: "Garbanzo",
       categoria: "vegetal",
-      imagen: "https://images.unsplash.com/photo-1596443686812-2f45229eebc3?w=400&h=300&fit=crop",
+      imagen: "https://www.gob.mx/cms/uploads/article/main_image/62820/garbanzo.jpg",
       descripcion: "Aporta hierro, proteína, zinc y folato con textura cremosa.",
       hierro: "~4.7 mg/taza",
       proteina: "14.5 g/taza",
@@ -131,7 +131,7 @@ export default function InformacionNutricional() {
       id: 9,
       nombre: "Quinua",
       categoria: "vegetal",
-      imagen: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop",
+      imagen: "https://manitoba.com.co/storage/2017/04/los-beneficios-de-la-quinua-y-la-avena-manitoba-1024x683.jpg",
       descripcion: "Cereal andino con proteína de calidad y hierro moderado.",
       hierro: "~2.8 mg/taza",
       proteina: "8.1 g/taza",
@@ -146,7 +146,7 @@ export default function InformacionNutricional() {
       id: 10,
       nombre: "Avena Fortificada",
       categoria: "vegetal",
-      imagen: "https://images.unsplash.com/photo-1517673132405-a56a62b18caf?w=400&h=300&fit=crop",
+       imagen: "https://content21.sabervivirtv.com/medio/2024/02/28/avena_5963dcb7_886668116(1)_240228140755_1200x630.webp",
       descripcion: "Cereal fortificado recomendado como primera fuente de hierro.",
       hierro: "4-8 mg/porción",
       proteina: "5-7 g/porción",
@@ -161,7 +161,7 @@ export default function InformacionNutricional() {
       id: 11,
       nombre: "Espinaca",
       categoria: "vegetal",
-      imagen: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&h=300&fit=crop",
+      imagen: "https://www.gastronomiavasca.net/uploads/image/file/3368/espinacas.jpg",
       descripcion: "Hoja verde con hierro no hemo y folatos.",
       hierro: "~3-4 mg/100g",
       proteina: "~3 g/100g",
@@ -176,7 +176,7 @@ export default function InformacionNutricional() {
       id: 12,
       nombre: "Kiwicha",
       categoria: "vegetal",
-      imagen: "https://images.unsplash.com/photo-1609501676725-7186f017a4b7?w=400&h=300&fit=crop",
+      imagen: "https://dojiw2m9tvv09.cloudfront.net/53648/product/sintitulo3914.png",
       descripcion: "Grano andino tradicional con hierro, proteína y fibra.",
       hierro: "~7 mg/100g",
       proteina: "~13 g/100g",
@@ -215,7 +215,7 @@ export default function InformacionNutricional() {
   };
 
   return (
-    <div className="min-h-screen  p-4 md:p-8">
+    <div className="min-h-screen  ">
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-8">
         <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
@@ -235,12 +235,12 @@ export default function InformacionNutricional() {
 
       {/* Filtros de Categoría */}
       <div className="max-w-6xl mx-auto mb-6">
-        <div className="flex flex-wrap gap-3 justify-center">
+        <div className="flex flex-wrap gap-3 justify-center ">
           {categorias.map(cat => (
             <button
               key={cat.id}
               onClick={() => setCategoriaActiva(cat.id)}
-              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 shadow-md hover:shadow-lg ${
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-xl hover:-translate-y-1 ${
                 categoriaActiva === cat.id
                   ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white scale-105'
                   : 'bg-white text-gray-700 hover:bg-gray-50'
@@ -254,11 +254,11 @@ export default function InformacionNutricional() {
       </div>
 
       {/* Grid de Alimentos */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 ">
         {alimentosFiltrados.map(alimento => (
           <div
             key={alimento.id}
-            className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+            className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-xl hover:-translate-y-1 "
           >
             {/* Imagen */}
             <div 
@@ -270,7 +270,7 @@ export default function InformacionNutricional() {
                 alt={alimento.nombre}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+              <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                 <span className="text-white opacity-0 group-hover:opacity-100 text-sm font-medium">
                   Click para ampliar
                 </span>
@@ -371,7 +371,7 @@ export default function InformacionNutricional() {
       </div>
 
       {/* 🔘 Botón Volver */}
-      <div className="flex justify-center mt-8 mb-10">
+      <div className="flex justify-center mt-8">
         <Link
           to="/"
           className="inline-block border-2 border-white text-white hover:bg-white hover:text-indigo-700 font-semibold py-2 px-6 rounded-full shadow-md transition-all duration-300"
@@ -383,7 +383,7 @@ export default function InformacionNutricional() {
       {/* Modal de Imagen Ampliada */}
       {imagenAmpliada && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/[0.9] bg-opacity-80 z-50 flex items-center justify-center p-4 animate-fadeIn"
           onClick={cerrarImagen}
         >
           <div className="relative max-w-4xl max-h-[90vh]">
