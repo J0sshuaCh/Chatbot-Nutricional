@@ -15,6 +15,8 @@ export default function MenuItem({ icon, title, description, type }) {
     "Información Nutricional": "/informacion-nutricional",
     "Servicios del Estado": "/servicios-estado",
     "Configuración y Privacidad": "/configuracion",
+    "Guía de Platillos Nutritivos": "/guia-platillos", // <--- AGREGADO
+    "Biblioteca de Documentos": "/biblioteca",         // <--- AGREGADO
   };
 
   // Si el título está en rutas activas, se muestra como Link

@@ -1,11 +1,12 @@
+// src/pages/configuracion-page.jsx
+
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Aseguramos importar 'Link'
 
 export default function Configuracion() {
   const navigate = useNavigate();
 
   const [installPrompt, setInstallPrompt] = useState(null);
-  const [canInstall, setCanInstall] = useState(true); // Siempre visible
 
   // ================================
   // Capturar beforeinstallprompt
@@ -60,13 +61,19 @@ export default function Configuracion() {
   };
 
   // ====================
-  // Limpiar caché
+  // Limpiar caché (Versión mejorada)
   // ====================
-  const handleClearCache = () => {
-    caches.keys().then((names) => {
-      for (let name of names) caches.delete(name);
-    });
-    alert("La caché ha sido eliminada.");
+  const handleClearCache = async () => {
+    try {
+      const names = await caches.keys(); 
+      const deletionPromises = names.map(name => caches.delete(name));
+      await Promise.all(deletionPromises); 
+
+      alert("La caché ha sido eliminada completamente.");
+    } catch (error) {
+      console.error("Error al eliminar la caché:", error);
+      alert("Error: No se pudo eliminar la caché.");
+    }
   };
 
   return (
@@ -120,7 +127,7 @@ export default function Configuracion() {
 
         {/* Privacidad */}
         <div
-          onClick={() => navigate("/privacidad")}
+          onClick={() => navigate("/privacidad-viewer")}
           className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 cursor-pointer
                      transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
         >
@@ -133,6 +140,17 @@ export default function Configuracion() {
         </div>
 
       </div>
+
+      {/* 🔘 Botón Volver */} {/* <--- CÓDIGO AÑADIDO AQUÍ */}
+      <div className="flex justify-center mt-8">
+        <Link
+          to="/"
+          className="inline-block border-2 border-white text-white hover:bg-white hover:text-indigo-700 font-semibold py-2 px-6 rounded-full shadow-md transition-all duration-300"
+        >
+          Volver al Menú Principal
+        </Link>
+      </div> 
+
     </div>
   );
 }
