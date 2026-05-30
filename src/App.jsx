@@ -7,15 +7,15 @@ import MenuGrid from "./components/menu-grid";
 import Footer from "./components/footer";
 import ChatbotPage from "./Pages/chatbot-page";
 import InformacionNutricional from "./Pages/informacion-nutricional-page";
-import Configuracion from "./pages/configuracion-page";
-import ServiciosDelEstado from "./pages/servicios-estado-page";
-import QaliWarmaPage from "./pages/qali-warma-page";
-import PlanAnemiaPage from "./pages/plan-anemia-page";
-import CunaMasPage from "./pages/cuna-mas-page";
-import GuiaPlatillosPage from "./pages/guia-platillos-page";
-import BibliotecaPage from "./pages/biblioteca-page";
-import DocumentViewerPage from "./pages/document-viewer-page";
-import PrivacidadViewerPage from "./pages/privacidad-viewer-page";
+import Configuracion from "./Pages/configuracion-page";
+import ServiciosDelEstado from "./Pages/servicios-estado-page";
+import QaliWarmaPage from "./Pages/qali-warma-page";
+import PlanAnemiaPage from "./Pages/plan-anemia-page";
+import CunaMasPage from "./Pages/cuna-mas-page";
+import GuiaPlatillosPage from "./Pages/guia-platillos-page";
+import BibliotecaPage from "./Pages/biblioteca-page";
+import DocumentViewerPage from "./Pages/document-viewer-page";
+import PrivacidadViewerPage from "./Pages/privacidad-viewer-page";
 import './App.css'
 
 
