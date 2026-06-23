@@ -1,5 +1,3 @@
-// src/App.jsx
-
 import React from "react";
 import { Routes, Route } from 'react-router-dom'
 import Header from "./components/header";
@@ -16,16 +14,17 @@ import GuiaPlatillosPage from "./Pages/guia-platillos-page";
 import BibliotecaPage from "./Pages/biblioteca-page";
 import DocumentViewerPage from "./Pages/document-viewer-page";
 import PrivacidadViewerPage from "./Pages/privacidad-viewer-page";
+import LoginPage from "./Pages/login-page";
+import RegisterPage from "./Pages/register-page";
+import MiPerfilPage from "./Pages/mi-perfil-page";
 import './App.css'
-
 
 function App() {
   return (
-
     <div className="container">
       <Header />
       <Routes>
-        <Route path="/" element={<MenuGrid />} /> 
+        <Route path="/" element={<MenuGrid />} />
         <Route path="/chatbot" element={<ChatbotPage />} />
         <Route path="/informacion-nutricional" element={<InformacionNutricional />} />
         <Route path="/servicios-estado" element={<ServiciosDelEstado />} />
@@ -35,8 +34,11 @@ function App() {
         <Route path="/servicios-estado/cuna-mas" element={<CunaMasPage />} />
         <Route path="/guia-platillos" element={<GuiaPlatillosPage />} />
         <Route path="/biblioteca" element={<BibliotecaPage />} />
-        <Route path="/biblioteca/:slug" element={<DocumentViewerPage />} /> 
+        <Route path="/biblioteca/:slug" element={<DocumentViewerPage />} />
         <Route path="/privacidad-viewer" element={<PrivacidadViewerPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/mi-perfil" element={<MiPerfilPage />} />
       </Routes>
       <Footer />
     </div>
