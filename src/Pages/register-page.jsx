@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContext'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import PageMeta from "@/components/page-meta"
+import { UserPlus, ArrowLeft } from 'lucide-react'
 
 export default function RegisterPage() {
   const [name, setName] = useState('')
@@ -26,77 +32,89 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">Crear Cuenta</h1>
+    <>
+      <PageMeta title="Crear Cuenta" description="Regístrate en ANMI para personalizar tu experiencia y gestionar tu información" />
+      <div className="flex flex-col items-center justify-center px-4 py-12">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle className="font-heading text-2xl">Crear Cuenta</CardTitle>
+          <CardDescription>Regístrate para personalizar tu experiencia</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {error && (
+            <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg mb-4 text-sm">
+              {error}
+            </div>
+          )}
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
-            {error}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="name">Nombre</Label>
+              <Input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Tu nombre"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@email.com"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="password">Contraseña</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Mínimo 6 caracteres"
+                required
+                minLength={6}
+              />
+            </div>
+
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  Registrando...
+                </span>
+              ) : (
+                <>
+                  <UserPlus data-icon="inline-start" />
+                  Registrarse
+                </>
+              )}
+            </Button>
+          </form>
+
+          <div className="flex flex-col items-center gap-3 mt-6">
+            <p className="text-sm text-muted-foreground">
+              ¿Ya tienes cuenta?{' '}
+              <Link to="/login" className="text-primary hover:text-primary/80 font-medium">
+                Iniciar Sesión
+              </Link>
+            </p>
+            <Button variant="link" nativeButton={false} render={<Link to="/" />}>
+              <ArrowLeft data-icon="inline-start" />
+              Volver al Menú Principal
+            </Button>
           </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">Nombre</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full p-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500"
-              placeholder="Tu nombre"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500"
-              placeholder="tu@email.com"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">Contraseña</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500"
-              placeholder="Mínimo 6 caracteres"
-              required
-              minLength={6}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all disabled:opacity-50"
-          >
-            {loading ? 'Registrando...' : 'Registrarse'}
-          </button>
-        </form>
-
-        <p className="text-center mt-6 text-gray-600">
-          ¿Ya tienes cuenta?{' '}
-          <Link to="/login" className="text-indigo-600 hover:text-indigo-800 font-medium">
-            Iniciar Sesión
-          </Link>
-        </p>
-
-        <Link
-          to="/"
-          className="block text-center mt-4 text-indigo-600 hover:text-indigo-800"
-        >
-          Volver al Menú Principal
-        </Link>
-      </div>
+        </CardContent>
+      </Card>
     </div>
+    </>
   )
 }

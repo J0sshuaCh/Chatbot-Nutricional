@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContext'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import PageMeta from "@/components/page-meta"
+import { LogIn, ArrowLeft } from 'lucide-react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -25,64 +31,84 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">Iniciar Sesión</h1>
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500"
-              placeholder="tu@email.com"
-              required
-            />
+    <>
+      <PageMeta title="Iniciar Sesión" description="Accede a tu cuenta en ANMI para gestionar tu perfil, bebés y alergias" />
+      <div className="flex flex-col items-center justify-start min-h-[calc(100dvh-120px)] px-4 py-2 md:py-4">
+        <div className="w-full max-w-md flex flex-col gap-6">
+          <div className="text-center flex flex-col items-center gap-3">
+            <div className="size-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+              <LogIn className="size-8 text-primary" />
+            </div>
+            <div>
+              <h1 className="font-heading text-2xl font-bold text-foreground">Iniciar Sesión</h1>
+              <p className="text-sm text-muted-foreground mt-1">Ingresa con tu cuenta para acceder a tu perfil</p>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">Contraseña</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500"
-              placeholder="••••••••"
-              required
-            />
-          </div>
+          <Card className="shadow-lg">
+            <CardContent className="p-6 flex flex-col gap-4">
+              {error && (
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm">
+                  {error}
+                </div>
+              )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all disabled:opacity-50"
-          >
-            {loading ? 'Entrando...' : 'Entrar'}
-          </button>
-        </form>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="tu@email.com"
+                    required
+                  />
+                </div>
 
-        <p className="text-center mt-6 text-gray-600">
-          ¿No tienes cuenta?{' '}
-          <Link to="/register" className="text-indigo-600 hover:text-indigo-800 font-medium">
-            Registrarse
-          </Link>
-        </p>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="password">Contraseña</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
 
-        <Link
-          to="/"
-          className="block text-center mt-4 text-indigo-600 hover:text-indigo-800"
-        >
-          Volver al Menú Principal
-        </Link>
+                <Button type="submit" disabled={loading} className="w-full">
+                  {loading ? (
+                    <span className="flex items-center gap-2">
+                      <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                      Entrando...
+                    </span>
+                  ) : (
+                    <>
+                      <LogIn data-icon="inline-start" />
+                      Entrar
+                    </>
+                  )}
+                </Button>
+              </form>
+
+              <div className="flex flex-col items-center gap-3 pt-2 border-t">
+                <p className="text-sm text-muted-foreground">
+                  ¿No tienes cuenta?{' '}
+                  <Link to="/register" className="text-primary hover:text-primary/80 font-medium">
+                    Registrarse
+                  </Link>
+                </p>
+                <Button variant="link" nativeButton={false} render={<Link to="/" />}>
+                  <ArrowLeft data-icon="inline-start" />
+                  Volver al Menú Principal
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
