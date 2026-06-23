@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
+import { useAuth } from "../lib/AuthContext";
 
 export default function ChatbotPage() {
+  const { session } = useAuth();
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,20 +29,23 @@ export default function ChatbotPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!prompt.trim()) return; // Evitar enviar vacíos
+    if (!prompt.trim()) return;
 
     const userMessage = { id: Date.now(), text: prompt, sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
 
-    const inputPrompt = prompt; // Guardamos el texto para enviarlo
-    setPrompt(""); // Limpiamos input
+    const inputPrompt = prompt;
+    setPrompt("");
     setIsLoading(true);
 
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: inputPrompt }),
+        body: JSON.stringify({
+          prompt: inputPrompt,
+          userId: session?.user?.id || null,
+        }),
       });
 
       if (!res.ok) {

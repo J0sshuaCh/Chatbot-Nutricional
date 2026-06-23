@@ -1,87 +1,109 @@
-// Archivo: api/chat.js
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import fs from "fs";
-import path from "path";
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { createClient } from '@supabase/supabase-js';
 
-// Inicializar el cliente de API
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: { autoRefreshToken: false, persistSession: false },
+});
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+
+async function obtenerContextoBebe(userId) {
+  try {
+    const partes = [];
+
+    const { data: bebes } = await supabase
+      .from('Bebe')
+      .select('*')
+      .eq('id_usuario', userId)
+      .order('fecha_nacimiento', { ascending: false });
+
+    if (!bebes || bebes.length === 0) return '';
+
+    const bebe = bebes[0];
+    const nacimiento = new Date(bebe.fecha_nacimiento);
+    const hoy = new Date();
+    const edadMeses = (hoy.getFullYear() - nacimiento.getFullYear()) * 12
+      + (hoy.getMonth() - nacimiento.getMonth());
+
+    partes.push(`Bebe: ${bebe.name}, Edad: ${edadMeses} meses`);
+
+    const { data: alergias } = await supabase
+      .from('AlergiaBebe')
+      .select('Alergia(descrip_alergia)')
+      .eq('id_bebe', bebe.id_bebe);
+
+    if (alergias?.length > 0) {
+      const lista = alergias.map(a => a.Alergia?.descrip_alergia).filter(Boolean).join(', ');
+      partes.push(`Alergias: ${lista} (NO recomendar estos alimentos)`);
+    }
+
+    const { data: analisis } = await supabase
+      .from('Analisis')
+      .select('*')
+      .eq('id_bebe', bebe.id_bebe)
+      .order('fecha_control', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (analisis) {
+      partes.push(`Ultimo control: Peso=${analisis.peso}kg, Talla=${analisis.talla}cm (${analisis.fecha_control})`);
+    }
+
+    return partes.join('\n');
+  } catch (error) {
+    console.warn('[Contexto] Error obteniendo datos:', error.message);
+    return '';
+  }
+}
 
 export default async function handler(req, res) {
-  // Solo permitir peticiones POST
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { prompt } = req.body;
+    const { prompt, userId } = req.body;
 
     if (!prompt) {
-      return res.status(400).json({ error: "No prompt provided" });
+      return res.status(400).json({ error: 'No prompt provided' });
     }
 
     if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({
-        error: "API Key not configured.",
-      });
+      return res.status(500).json({ error: 'API Key not configured.' });
     }
 
-    // --- LÓGICA NUEVA: LEER EL JSON (RAPIDÍSIMO) ---
-    let contextText = "";
-
-    try {
-      // Buscamos el archivo data.json que generaste
-      const jsonPath = path.join(process.cwd(), 'api', 'data.json');
-      
-      if (fs.existsSync(jsonPath)) {
-        // Leemos el archivo JSON
-        const rawData = fs.readFileSync(jsonPath, 'utf8');
-        const knowledgeBase = JSON.parse(rawData);
-
-        // Convertimos el JSON a texto para el Prompt
-        knowledgeBase.forEach(doc => {
-          contextText += `\n--- FUENTE: ${doc.fileName} ---\n${doc.content}\n`;
-        });
-        
-        console.log(`[JSON SUCCESS] Contexto cargado: ${knowledgeBase.length} documentos.`);
-      } else {
-        console.warn("[JSON WARNING] No se encontró api/data.json. Ejecuta 'node convert_pdfs.js' primero.");
-        contextText = "No hay información de contexto disponible en este momento.";
-      }
-    } catch (err) {
-      console.error("[JSON ERROR] Error leyendo la base de datos:", err);
-      contextText = "Error al cargar la información de contexto.";
+    let contextoBD = '';
+    if (userId) {
+      contextoBD = await obtenerContextoBebe(userId);
     }
 
-    // --- PREPARAR PROMPT (Mantenemos tus reglas) ---
-    const finalPrompt = `
-    Eres un asistente inteligente del proyecto ANMI.
-    Usa la siguiente información de contexto extraída de los documentos oficiales para responder a la pregunta del usuario.
-    
-    REGLAS:
-    1. Si la respuesta está en el contexto, úsalo para responder con precisión.
-    2. Si la respuesta NO está en el contexto, responde amablemente usando tu conocimiento general, pero aclara que esa información específica no estaba en los documentos proporcionados.
-    3. Sé conciso y profesional.
-    4. IMPORTANTE: Usa formato Markdown para tu respuesta (negritas, listas, encabezados) para que sea fácil de leer.
-    5. IMPORTANTE: Al final de tu respuesta, indica explícitamente de qué documento(s) sacaste la información usando el formato: "**Fuente:** [Nombre del archivo]". Si usaste conocimiento general, di "**Fuente:** Conocimiento general".
+    const contextoFinal = contextoBD
+      ? `INFORMACION DEL USUARIO (desde base de datos):\n${contextoBD}\n\n`
+      : '';
 
-    CONTEXTO DE LOS DOCUMENTOS:
-    ${contextText}
+    const finalPrompt = `Eres el asistente ANMI (Asistente Nutricional Materno Infantil).
+Responde EN ESPANOL, con formato Markdown.
+Usa la informacion del usuario para personalizar la respuesta.
+Si hay alergias registradas, no recomiendes esos alimentos.
+Si la informacion especifica no esta disponible, usa tu conocimiento general indicando la fuente.
 
-    PREGUNTA DEL USUARIO:
-    ${prompt}
-    `;
+${contextoFinal}PREGUNTA DEL USUARIO:
+${prompt}`;
 
-
-
-    // --- LLAMADA A GEMINI ---
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const result = await model.generateContent(finalPrompt);
     const response = await result.response;
     const text = response.text();
 
-    res.status(200).json({ text });
+    res.status(200).json({
+      text,
+      timestamp: new Date().toISOString(),
+    });
   } catch (error) {
-    console.error("Error calling Gemini API:", error);
-    res.status(500).json({ error: "Error interno del servidor: " + error.message });
+    console.error('Error calling Gemini API:', error);
+    res.status(500).json({ error: 'Error interno del servidor: ' + error.message });
   }
 }
