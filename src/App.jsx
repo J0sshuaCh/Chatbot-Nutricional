@@ -1,48 +1,92 @@
-import React from "react";
-import { Routes, Route } from 'react-router-dom'
-import Header from "./components/header";
-import MenuGrid from "./components/menu-grid";
-import Footer from "./components/footer";
-import ChatbotPage from "./Pages/chatbot-page";
-import InformacionNutricional from "./Pages/informacion-nutricional-page";
-import Configuracion from "./Pages/configuracion-page";
-import ServiciosDelEstado from "./Pages/servicios-estado-page";
-import QaliWarmaPage from "./Pages/qali-warma-page";
-import PlanAnemiaPage from "./Pages/plan-anemia-page";
-import CunaMasPage from "./Pages/cuna-mas-page";
-import GuiaPlatillosPage from "./Pages/guia-platillos-page";
-import BibliotecaPage from "./Pages/biblioteca-page";
-import DocumentViewerPage from "./Pages/document-viewer-page";
-import PrivacidadViewerPage from "./Pages/privacidad-viewer-page";
-import LoginPage from "./Pages/login-page";
-import RegisterPage from "./Pages/register-page";
-import MiPerfilPage from "./Pages/mi-perfil-page";
-import './App.css'
+import { lazy, Suspense } from "react"
+import { Routes, Route, useLocation } from "react-router-dom"
+import { AnimatePresence, motion } from "framer-motion"
+import { HelmetProvider } from "react-helmet-async"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "./lib/ThemeContext"
+import Header from "./components/header"
+import Footer from "./components/footer"
+
+const MenuGrid = lazy(() => import("./components/menu-grid"))
+const ChatbotPage = lazy(() => import("./Pages/chatbot-page"))
+const InformacionNutricional = lazy(() => import("./Pages/informacion-nutricional-page"))
+const Configuracion = lazy(() => import("./Pages/configuracion-page"))
+const ServiciosDelEstado = lazy(() => import("./Pages/servicios-estado-page"))
+const QaliWarmaPage = lazy(() => import("./Pages/qali-warma-page"))
+const PlanAnemiaPage = lazy(() => import("./Pages/plan-anemia-page"))
+const CunaMasPage = lazy(() => import("./Pages/cuna-mas-page"))
+const GuiaPlatillosPage = lazy(() => import("./Pages/guia-platillos-page"))
+const BibliotecaPage = lazy(() => import("./Pages/biblioteca-page"))
+const DocumentViewerPage = lazy(() => import("./Pages/document-viewer-page"))
+const PrivacidadViewerPage = lazy(() => import("./Pages/privacidad-viewer-page"))
+const LoginPage = lazy(() => import("./Pages/login-page"))
+const RegisterPage = lazy(() => import("./Pages/register-page"))
+const MiPerfilPage = lazy(() => import("./Pages/mi-perfil-page"))
+
+function PageTransition({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -6 }}
+      transition={{ duration: 0.18, ease: "easeInOut" }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function AnimatedRoutes() {
+  const location = useLocation()
+  return (
+    <AnimatePresence mode="wait">
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center py-20 text-muted-foreground">
+            Cargando...
+          </div>
+        }
+      >
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<PageTransition><MenuGrid /></PageTransition>} />
+          <Route path="/chatbot" element={<PageTransition><ChatbotPage /></PageTransition>} />
+          <Route path="/informacion-nutricional" element={<PageTransition><InformacionNutricional /></PageTransition>} />
+          <Route path="/servicios-estado" element={<PageTransition><ServiciosDelEstado /></PageTransition>} />
+          <Route path="/configuracion" element={<PageTransition><Configuracion /></PageTransition>} />
+          <Route path="/servicios-estado/qali-warma" element={<PageTransition><QaliWarmaPage /></PageTransition>} />
+          <Route path="/servicios-estado/plan-anemia" element={<PageTransition><PlanAnemiaPage /></PageTransition>} />
+          <Route path="/servicios-estado/cuna-mas" element={<PageTransition><CunaMasPage /></PageTransition>} />
+          <Route path="/guia-platillos" element={<PageTransition><GuiaPlatillosPage /></PageTransition>} />
+          <Route path="/biblioteca" element={<PageTransition><BibliotecaPage /></PageTransition>} />
+          <Route path="/biblioteca/:slug" element={<PageTransition><DocumentViewerPage /></PageTransition>} />
+          <Route path="/privacidad-viewer" element={<PageTransition><PrivacidadViewerPage /></PageTransition>} />
+          <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+          <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+          <Route path="/mi-perfil" element={<PageTransition><MiPerfilPage /></PageTransition>} />
+        </Routes>
+      </Suspense>
+    </AnimatePresence>
+  )
+}
 
 function App() {
   return (
-    <div className="container">
-      <Header />
-      <Routes>
-        <Route path="/" element={<MenuGrid />} />
-        <Route path="/chatbot" element={<ChatbotPage />} />
-        <Route path="/informacion-nutricional" element={<InformacionNutricional />} />
-        <Route path="/servicios-estado" element={<ServiciosDelEstado />} />
-        <Route path="/configuracion" element={<Configuracion />} />
-        <Route path="/servicios-estado/qali-warma" element={<QaliWarmaPage />} />
-        <Route path="/servicios-estado/plan-anemia" element={<PlanAnemiaPage />} />
-        <Route path="/servicios-estado/cuna-mas" element={<CunaMasPage />} />
-        <Route path="/guia-platillos" element={<GuiaPlatillosPage />} />
-        <Route path="/biblioteca" element={<BibliotecaPage />} />
-        <Route path="/biblioteca/:slug" element={<DocumentViewerPage />} />
-        <Route path="/privacidad-viewer" element={<PrivacidadViewerPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/mi-perfil" element={<MiPerfilPage />} />
-      </Routes>
-      <Footer />
-    </div>
-  );
+    <HelmetProvider>
+      <ThemeProvider>
+        <TooltipProvider>
+          <div className="min-h-dvh flex flex-col bg-background">
+            <Header />
+            <main className="flex-1">
+              <AnimatedRoutes />
+            </main>
+            <Footer />
+          </div>
+          <Toaster richColors />
+        </TooltipProvider>
+      </ThemeProvider>
+    </HelmetProvider>
+  )
 }
 
-export default App;
+export default App
