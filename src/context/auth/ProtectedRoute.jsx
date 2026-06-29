@@ -1,6 +1,5 @@
-
 import { Navigate, Outlet } from 'react-router-dom'
-import { useAuth } from '../../hook/useAuth'
+import { useAuth } from '../../lib/AuthContext'
 import { Loading } from '../../components/ui/Loading'
 
 export const ProtectedRoute = ({ redirectTo = "/" }) => {

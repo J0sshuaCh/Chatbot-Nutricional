@@ -1,5 +1,5 @@
 import { Loading } from '../../components/ui/Loading'
-import { useAuth } from '../../hook/useAuth'
+import { useAuth } from '../../lib/AuthContext'
 import { Navigate, Outlet } from 'react-router-dom'
 
 export const PublicRoute = ({ redirectTo = "/gestor-bebe" }) => {

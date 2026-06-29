@@ -1,4 +1,4 @@
-import { supabase } from "../supabase/client";
+import { supabase } from "../lib/supabaseClient";
 
 // 1. CREAR (Insertar un nuevo bebé)
 export const insertBebe = async (newBebe) => {

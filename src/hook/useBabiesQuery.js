@@ -1,6 +1,6 @@
 // src/hooks/useBabiesQuery.js
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
-import { useAuth } from "./useAuth";
+import { useAuth } from "../lib/AuthContext";
 import { getBebes, insertBebe, updateBebe, deleteBebe } from "../services/babiesServices";
 
 // 1. HOOK EXCLUSIVO PARA LEER (QUERY)

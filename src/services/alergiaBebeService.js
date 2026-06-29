@@ -1,4 +1,4 @@
-import { supabase } from "../supabase/client";
+import { supabase } from "../lib/supabaseClient";
 //archivo service
 
 export const obtenerAlergiasBebe = async (id_bebe) => {

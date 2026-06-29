@@ -1,4 +1,4 @@
-import { supabase } from "../supabase/client";
+import { supabase } from "../lib/supabaseClient";
 
 // Obtener todos los análisis de un bebé específico
 export const getAnalisisPorBebe = async (targetIdBebe) => {

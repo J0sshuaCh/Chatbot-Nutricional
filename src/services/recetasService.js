@@ -1,4 +1,4 @@
-import { supabase } from "../supabase/client";
+import { supabase } from "../lib/supabaseClient";
 
 
 export const getRecetasConIngredientes = async () => {
