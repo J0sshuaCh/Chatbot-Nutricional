@@ -11,6 +11,7 @@ export default function MenuItem({ icon, title, description, type }) {
 
   // Determinar si el título tiene una ruta activa
   const rutasActivas = {
+    "Gestión de mi Bebé": "/login",
     "Chatbot ANMI": "/chatbot",
     "Información Nutricional": "/informacion-nutricional",
     "Servicios del Estado": "/servicios-estado",
@@ -34,7 +35,7 @@ export default function MenuItem({ icon, title, description, type }) {
   return (
     <div className={`menu-item ${type}`} onClick={mostrarSeccion}>
       <div className="icon">{icon}</div>
-      <h2 className="font-bold ">{title}</h2>
+      <h2 className="font-bold">{title}</h2>
       <p>{description}</p>
       <span className="status desarrollo">En desarrollo</span>
     </div>

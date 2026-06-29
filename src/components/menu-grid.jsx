@@ -1,7 +1,15 @@
 import React from "react";
 import MenuItem from "./menu-item";
 
-const items = [
+const itemBebe = {
+  icon: "👶",
+  title: "Gestión de mi Bebé",
+  description: "Registra y haz seguimiento al crecimiento, peso, talla y control de anemia de tu bebé.",
+  type: "bebe",
+};
+
+const itemsPublicos = [
+
   {
     icon: "🤖",
     title: "Chatbot ANMI",
@@ -48,10 +56,20 @@ const items = [
 
 export default function MenuGrid() {
   return (
-    <div className="menu-grid">
-      {items.map((item, index) => (
-        <MenuItem key={index} {...item} />
-      ))}
+
+    <div className=" mx-auto p-4 space-y-6">
+      <div className="seccion-privada">
+        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">Mi Espacio Personal</h3>
+        <MenuItem {...itemBebe} />
+      </div>
+
+      <hr className="border-gray-200" />
+      <div className="menu-grid">
+        {itemsPublicos.map((item, index) => (
+          <MenuItem key={index} {...item} />
+        ))}
+      </div>
     </div>
+
   );
 }
