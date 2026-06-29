@@ -55,9 +55,9 @@ export const MedicalHistoryPage = () => {
                 )}
 
 
-                <div className='bg-white p-3 rounded-2xl border-2 border-gray-200 shadow-lg transition-all w-full min-w-0 overflow-hidden'>
+                <div className='bg-card p-3 rounded-xl border-2 border-border shadow-lg transition-all w-full min-w-0 overflow-hidden'>
 
-                    <h2 className="text-2xl font-bold text-black mb-6">
+                    <h2 className="text-2xl font-bold text-foreground mb-6">
                         Resumen Actual
                     </h2>
 
@@ -70,15 +70,15 @@ export const MedicalHistoryPage = () => {
                 </div>
 
                 <div>
-                    <h1 className='text-xl font-bold  mb-4'>Historial de Controles</h1>
+                    <h1 className='text-xl font-bold text-foreground mb-4'>Historial de Controles</h1>
 
                     <div className=''>
 
                         {/* CASO 1: No hay bebé seleccionado */}
                         {!babySelect || Object.keys(babySelect).length === 0 ? (
                             <div className="flex flex-col items-center justify-center py-8 text-center gap-2">
-                                <AlertCircle className="w-8 h-8 text-zinc-400" />
-                                <p className="text-sm font-medium text-zinc-500">Selecciona un bebé arriba para visualizar sus registros.</p>
+                                <AlertCircle className="w-8 h-8 text-muted-foreground" />
+                                <p className="text-sm font-medium text-muted-foreground">Selecciona un bebé arriba para visualizar sus registros.</p>
                             </div>
                         ) : loadingControles ? (
                             /* Loader de carga interna de controles */
@@ -97,8 +97,8 @@ export const MedicalHistoryPage = () => {
                         ) : (
                             /* CASO 3: Bebé seleccionado sin registros aún */
                             <div className="flex flex-col items-center justify-center py-10 text-center gap-1">
-                                <p className="text-sm font-semibold text-zinc-600">No hay controles médicos guardados</p>
-                                <p className="text-xs text-zinc-400">Haz clic en el botón inferior para registrar el primero.</p>
+                                <p className="text-sm font-semibold text-muted-foreground">No hay controles médicos guardados</p>
+                                <p className="text-xs text-muted-foreground">Haz clic en el botón inferior para registrar el primero.</p>
                             </div>
                         )}
 
@@ -108,9 +108,7 @@ export const MedicalHistoryPage = () => {
                 <div className='fixed bottom-7 right-7'>
 
                     <BotonPrimary
-                        style='colorido'
-                        claseColor='bg-baby-mint'
-                        claseHover='hover:bg-baby-mint-hover'
+                        style='default'
                         action={() => accionRegistrar()}
                     >
                         + Nuevo Control

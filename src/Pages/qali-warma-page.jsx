@@ -43,7 +43,7 @@ export default function QaliWarmaPage() {
               Con una alimentación adecuada, se mejora la atención, asistencia escolar, permanencia
               y los hábitos alimentarios saludables.
             </p>
-            <div className="w-full rounded-xl overflow-hidden shadow-md">
+            <div className="w-full rounded-xl overflow-hidden shadow-sm">
               <img
                 src="https://e-an.americatv.com.pe/actualidad-midis-estimara-impacto-desayunos-escolares-distribuidos-qali-warma-n323069-938x528-470666.png"
                 alt="Qali Warma"

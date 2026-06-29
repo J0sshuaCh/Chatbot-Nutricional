@@ -43,19 +43,19 @@ export default function AllergiesTabla({
     // Función opcional para dar un color dinámico al badge según la categoría
     const getCategoryStyles = (category) => {
         const cat = category?.toLowerCase();
-        if (cat?.includes('alimentaria')) return 'bg-amber-100 text-amber-800';
-        if (cat?.includes('medicamento')) return 'bg-red-100 text-red-800';
-        if (cat?.includes('respiratoria')) return 'bg-blue-100 text-blue-800';
-        if (cat?.includes('dermatologica')) return 'bg-purple-100 text-purple-800';
-        if (cat?.includes('insecto')) return 'bg-indigo-100 text-indigo-800';
-        return 'bg-gray-100 text-gray-800';
+        if (cat?.includes('alimentaria')) return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300';
+        if (cat?.includes('medicamento')) return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';
+        if (cat?.includes('respiratoria')) return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300';
+        if (cat?.includes('dermatologica')) return 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300';
+        if (cat?.includes('insecto')) return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300';
+        return 'bg-muted text-foreground';
     };
 
     return (
         // Reduje ligeramente el padding en móvil (p-4) y se agranda en escritorio (md:p-8)
-        <div className="bg-white rounded-2xl p-5 md:p-8 shadow-md border border-gray-100 w-full overflow-hidden">
+        <div className="bg-card rounded-xl p-5 md:p-8 shadow-sm border-border w-full overflow-hidden">
 
-            <h2 className="text-xl md:text-2xl font-bold text-black mb-6">
+            <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
                 Tabla de Alergias Personalizadas
             </h2>
 
@@ -68,7 +68,7 @@ export default function AllergiesTabla({
                             <div
                                 key={allergy.id_alergia || allergy.id}
                                 // flex-col para móvil y flex-row para escritorio. Ajuste de alineación y bordes.
-                                className="flex flex-row sm:items-center justify-between gap-4 py-4 sm:py-3 border-b border-gray-100 last:border-b-0"
+                                className="flex flex-row sm:items-center justify-between gap-4 py-4 sm:py-3 border-b border-border last:border-b-0"
                             >
                                 {/* Contenedor Izquierdo: Icono + Nombre + Badge */}
                                 <div className="flex items-center gap-4 min-w-0 flex-1">
@@ -76,7 +76,7 @@ export default function AllergiesTabla({
 
                                     {/* Ajuste para que el nombre y el badge no se rompan feo */}
                                     <div className="flex flex-col md:flex-row items-center gap-1.5 md:gap-3 md:flex-1 min-w-0">
-                                        <h3 className="font-bold text-base text-black truncate capitalize">
+                                        <h3 className="font-bold text-base text-foreground truncate capitalize">
                                             {allergy.descrip_alergia}
                                         </h3>
                                         {/* Badge visible al lado o abajo del texto en móvil */}
@@ -94,7 +94,7 @@ export default function AllergiesTabla({
                                         variant="delete"
                                         icon={Trash2}
                                         onAction={() => handleDeleteConfirm(allergy.id_alergia || allergy.id)}
-                                        style="bg-baby-pink hover:bg-baby-pink-hover text-black p-3 rounded-full transition-colors"
+                                        style="bg-primary/10 hover:bg-primary/20 text-foreground p-3 rounded-full transition-colors"
                                     />
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ export default function AllergiesTabla({
 
 
                 {(!allergies || allergies.length === 0) && (
-                    <p className="text-gray-400 text-center py-4 font-medium">No hay alergias registradas.</p>
+                    <p className="text-muted-foreground text-center py-4 font-medium">No hay alergias registradas.</p>
                 )}
             </div>
         </div>

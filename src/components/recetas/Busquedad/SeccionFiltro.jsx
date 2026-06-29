@@ -2,18 +2,18 @@ import { ChevronDown } from "lucide-react";
 
 export function SeccionFiltro({ icono, titulo, abierta, onToggle, children }) {
     return (
-        <div className="border-b border-zinc-100 last:border-b-0 py-4 ">
+        <div className="border-b border-border last:border-b-0 py-4 ">
             <button
                 type="button"
                 onClick={onToggle}
                 className="w-full flex items-center justify-between cursor-pointer"
             >
-                <span className="flex items-center gap-2 text-base font-semibold text-zinc-900">
+                <span className="flex items-center gap-2 text-base font-semibold text-foreground">
                     <span className="text-lg">{icono}</span>
                     {titulo}
                 </span>
                 <ChevronDown
-                    className={`w-4 h-4 text-zinc-400 transition-transform duration-200 ${abierta ? "rotate-180" : ""
+                    className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${abierta ? "rotate-180" : ""
                         }`}
                 />
             </button>

@@ -4,7 +4,7 @@ import { SeccionFiltro } from "./Busquedad/SeccionFiltro";
 import { CheckboxOpcion } from "./Busquedad/CheckboxOpcion";
 import { PillOpcion } from "./Busquedad/PillOpcion";
 import { Input } from "../ui/Input";
-import { useAuth } from "../../hook/useAuth";
+import { useAuth } from "../../lib/AuthContext";
 import { useAlergiasAlimentarias } from "../../hook/useAllergiesQuery";
 import { ETAPAS_EDAD, ETAPAS_EDAD_LIST } from "../../constant/etapas";
 import { TIPOS_COMIDA_LIST } from "../../constant/tipoComida";
@@ -74,17 +74,17 @@ export default function FiltrosBusqueda({ onChange }) {
     };
     
     return (
-        <div className="bg-white py-4 pl-4 md:py-6 md:pl-4 pr-0.5 rounded-2xl shadow-lg border border-bg-primary/30 w-full flex flex-col h-[75vh] min-h-[400px] ">
-            <div className="overflow-y-auto pr-2 scrollbar-thin [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-100 [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div className="bg-card py-4 pl-4 md:py-6 md:pl-4 pr-0.5 rounded-xl shadow-lg border border-primary/30 w-full flex flex-col h-[75vh] min-h-[400px] ">
+            <div className="overflow-y-auto pr-2 scrollbar-thin [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-muted [&::-webkit-scrollbar-thumb]:rounded-full">
 
                 {/* Título */}
-                <h2 className="text-xl font-bold text-zinc-900 mb-4">
+                <h2 className="text-xl font-bold text-foreground mb-4">
                     Filtros y Búsqueda
                 </h2>
 
                 {/* Buscador */}
                 <div className="relative mb-2">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
                         type="text"
                         value={busqueda}

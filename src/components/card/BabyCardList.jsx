@@ -3,7 +3,7 @@ import { BabyCardSimple } from "./BabyCardSimple";
 export const BabyCardList = ({ babies = [] }) => {
     if (!babies.length) {
         return (
-            <p className="text-slate-400 text-sm">
+            <p className="text-muted-foreground text-sm">
                 No tienes bebés registrados aún.
             </p>
         );

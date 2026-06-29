@@ -27,16 +27,14 @@ export const BabiesPage = () => {
         <>
 
             <div>
-                <h1 className="text-4xl font-bold text-black px-2 py-10">
+                <h1 className="text-4xl font-bold text-foreground px-2 py-10">
                     Gestionar Perfil Bebés
                 </h1>
 
                 <div className=' relative'>
                     <div className='w-42 absolute -top-5 right-5 md:right-15'>
                         <BotonPrimary
-                            style='colorido'
-                            claseColor='bg-baby-mint'
-                            claseHover='hover:bg-baby-mint-hover'
+                            style='default'
                             action={() => { setModalAddOpen(true); }}
                         >
                             + Añadir bebé

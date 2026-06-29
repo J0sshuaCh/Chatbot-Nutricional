@@ -4,9 +4,9 @@ import Cochecito from '../icon/Cochecito'
 export const ItemReceta = ({ receta }) => {
     // Función auxiliar para dar color a las píldoras de edad
     const getBadgeStyle = (rango) => {
-        if (rango?.includes('6-8')) return 'bg-orange-50 text-orange-700'
-        if (rango?.includes('9')) return 'bg-amber-50 text-amber-700'
-        return 'bg-emerald-50 text-emerald-700'
+        if (rango?.includes('6-8')) return 'bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'
+        if (rango?.includes('9')) return 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+        return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
     }
 
     const getColorCoche = (rango) => {
@@ -17,7 +17,7 @@ export const ItemReceta = ({ receta }) => {
 
     return (
         // Cambiamos "w-full" por "flex-1 min-w-[300px]"
-        <div className="group relative flex-1 min-w-[250px] h-80 bg-white rounded-2xl shadow-lg border border-gray-200 p-5 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-md hover:border-violet-200">
+        <div className="group relative flex-1 min-w-[250px] h-80 bg-card rounded-xl shadow-lg border-border p-5 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-sm hover:border-violet-200 dark:hover:border-violet-700">
 
             {/* VISTA PRINCIPAL (Contenido base de la receta) */}
             <div className="flex flex-col gap-3">
@@ -31,23 +31,23 @@ export const ItemReceta = ({ receta }) => {
                 </div>
 
 
-                <h3 className="font-bold text-gray-800 text-lg leading-snug line-clamp-2 group-hover:text-emerald-700 transition-colors">
+                <h3 className="font-bold text-foreground text-lg leading-snug line-clamp-2 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                     {receta.titulo}
                 </h3>
 
-                <p className="text-gray-600 text-sm line-clamp-4 leading-relaxed">
+                <p className="text-muted-foreground text-sm line-clamp-4 leading-relaxed">
                     {receta.descripcion || 'Sin descripción disponible.'}
                 </p>
 
                 <div className='w-full flex justify-end'>
-                    <span className=" font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+                    <span className=" font-medium text-muted-foreground bg-muted px-2 py-1 rounded-md">
                         🍽️ {receta.tipoComida || 'General'}
                     </span>
                 </div>
             </div>
 
-            <div className="border-t border-gray-100 pt-3 flex justify-between items-center transition-opacity duration-200 group-hover:opacity-0">
-                <span className="text-[11px] text-gray-400 font-medium flex items-center gap-1.5">
+            <div className="border-t border-border pt-3 flex justify-between items-center transition-opacity duration-200 group-hover:opacity-0">
+                <span className="text-[11px] text-muted-foreground font-medium flex items-center gap-1.5">
                     {receta.isPredeterminada ? (
                         <>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z" /></svg>

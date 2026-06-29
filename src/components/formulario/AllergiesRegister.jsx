@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from 'zod'
 import { BotonPrimary } from "../ui/BotonPrimary"
 import { Input } from "../ui/Input";
-import Select from "../ui/Select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/Select";
 import Swal from "sweetalert2";
 import { useCreateAllergy } from "../../hook/useAllergiesQuery";
 
@@ -72,8 +72,8 @@ export default function AllergiesRegister(props) {
     };
 
     return (
-        <div className=" mx-auto p-6 rounded-xl shadow-md border border-blue-200">
-            <h2 className="text-xl font-semibold text-gray-800 mb-5">
+        <div className=" mx-auto p-6 rounded-xl shadow-sm border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-5">
                 Crear Alergia Personalizada
             </h2>
 
@@ -81,7 +81,7 @@ export default function AllergiesRegister(props) {
 
                 {/* Selector de Bebés */}
                 <div className="flex flex-col gap-1.5">
-                    <label className="text-xs  lg:text-sm  font-semibold text-zinc-500 px-1">
+                    <label className="text-xs  lg:text-sm  font-semibold text-muted-foreground px-1">
                         Descripción Alergia
                     </label>
                     <Input
@@ -94,22 +94,28 @@ export default function AllergiesRegister(props) {
 
                 {/* Selector de Alergias */}
                 <div className="flex flex-col gap-1.5">
-                    <label className="text-xs lg:text-sm font-semibold text-zinc-500 px-1">
+                    <label className="text-xs lg:text-sm font-semibold text-muted-foreground px-1">
                         Seleccionar categoría
                     </label>
                     <Controller
                         name="categoria"
                         control={control}
                         render={({ field }) => (
-                            <Select
-                                items={props.categorias}
-                                labelKey="label"
-                                valueKey="id"
-                                placeholder="Seleccione categoría..."
-                                badge={(item) => item.icon}
-                                value={field.value}
-                                onChange={field.onChange}
-                            />
+                            <Select value={field.value?.id || null} onValueChange={(val) => {
+                                const item = props.categorias.find(c => c.id === val);
+                                field.onChange(item || null);
+                              }}>
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Seleccione categoría..." />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {props.categorias.map((cat) => (
+                                  <SelectItem key={cat.id} value={cat.id}>
+                                    {cat.icon} {cat.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                         )}
                     />
                     {errors.categoria && (
@@ -121,9 +127,7 @@ export default function AllergiesRegister(props) {
                 {/* Botón Vincular */}
                 <BotonPrimary
                     type="submit"
-                    style="colorido"
-                    claseColor="bg-baby-mint"
-                    claseHover="hover:bg-baby-mint-hover"
+                    style="default"
                     disabled={isCargando}
                 >
                     {isSubmitting ? 'Guardando...' :  '+ Crear Alergia en Catálogo'}

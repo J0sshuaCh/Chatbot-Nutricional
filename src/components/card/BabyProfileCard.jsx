@@ -26,20 +26,20 @@ export const BabyProfileCard = ({ babySelect }) => {
     const esNina = genero === 'F'
 
     // Fondo del encabezado (celeste para niño, rosa/pastel para niña)
-    const headerBgColor = esNina ? 'bg-baby-pink' : 'bg-baby-blue'
+    const headerBgColor = esNina ? 'bg-primary/10' : 'bg-secondary/20'
 
     // Fondo del círculo del avatar
-    const avatarBgColor = 'bg-bg-dorado'
+    const avatarBgColor = 'bg-accent/10'
 
     return (
-        <div className="relative overflow-hidden bg-white rounded-3xl shadow-md border border-slate-100 ">
+        <div className="relative overflow-hidden bg-card rounded-xl shadow-sm border border-border">
 
             {/* ENCABEZADO SEMICIRCULAR */}
             <div className={`h-24 ${headerBgColor} rounded-b-[40%] transition-colors duration-300 relative`} />
 
             {/* AVATAR (Posicionado encima del corte del semicírculo) */}
             <div className="absolute top-8 left-1/2 -translate-x-1/2">
-                <div className={`w-24 h-24 ${avatarBgColor} rounded-full border-4 border-white flex items-center justify-center shadow-sm overflow-hidden transition-colors duration-300`}>
+                <div className={`w-24 h-24 ${avatarBgColor} rounded-full border-4 border-white dark:border-gray-700 flex items-center justify-center shadow-sm overflow-hidden transition-colors duration-300`}>
                     {esNina ? <BabyNina className="w-16 h-16" /> : <BabyNino className="w-16 h-16" />}
                 </div>
             </div>
@@ -49,12 +49,12 @@ export const BabyProfileCard = ({ babySelect }) => {
 
 
                 {/* LISTA DE ATRIBUTOS */}
-                <div className="space-y-3 text-left max-w-[200px] mx-auto text-slate-700 font-medium ">
+                <div className="space-y-3 text-left max-w-[200px] mx-auto text-foreground font-medium ">
 
                     {noHayBebeSeleccionado ? (
                         // CASO A: El usuario no ha seleccionado ningún bebé
                         <div className="flex flex-col items-center text-center space-y-1.5 animate-pulse py-2">
-                            <p className="text-xs font-semibold text-slate-600">Por favor, elige un bebé</p>
+                            <p className="text-xs font-semibold text-muted-foreground">Por favor, elige un bebé</p>
                             <ArrowUpCircle className="w-6 h-6 text-bg-primary rotate-180" strokeWidth={1.5} />
 
                         </div>
@@ -64,28 +64,28 @@ export const BabyProfileCard = ({ babySelect }) => {
                     ) : (
                         // CASO C: Bebé seleccionado con datos listos para mostrar
                         <>
-                            <h2 className="text-xl font-bold text-slate-800 mb-4 transition-all text-center">
+                            <h2 className="text-xl font-bold text-foreground mb-4 transition-all text-center">
                                 {nombre}
                             </h2>
-                            <div className="space-y-3 text-left text-slate-700 font-medium w-full">
+                            <div className="space-y-3 text-left text-foreground font-medium w-full">
                                 {/* Edad */}
                                 <div className="flex items-center gap-3">
-                                    <Calendar className="w-7 h-7 text-slate-400 fill-slate-100" strokeWidth={2} />
-                                    <span className="text-slate-600 text-sm">{edad || 'Edad no disponible'}</span>
+                                    <Calendar className="w-7 h-7 text-muted-foreground fill-muted" strokeWidth={2} />
+                                    <span className="text-muted-foreground text-sm">{edad || 'Edad no disponible'}</span>
                                 </div>
 
                                 {/* Peso */}
                                 <div className="flex items-center gap-3">
-                                    <Weight className="w-7 h-7 text-slate-400 fill-slate-100" strokeWidth={2} />
-                                    <span className={`text-sm ${!ultimoControl?.peso ? 'text-slate-400 font-normal italic' : 'text-slate-600'}`}>
+                                    <Weight className="w-7 h-7 text-muted-foreground fill-muted" strokeWidth={2} />
+                                    <span className={`text-sm ${!ultimoControl?.peso ? 'text-muted-foreground font-normal italic' : 'text-muted-foreground'}`}>
                                         {peso}
                                     </span>
                                 </div>
 
                                 {/* Talla */}
                                 <div className="flex items-center gap-3">
-                                    <Ruler className="w-7 h-7 text-slate-400 fill-slate-100" strokeWidth={2} />
-                                    <span className={`text-sm ${!ultimoControl?.talla ? 'text-slate-400 font-normal italic' : 'text-slate-600'}`}>
+                                    <Ruler className="w-7 h-7 text-muted-foreground fill-muted" strokeWidth={2} />
+                                    <span className={`text-sm ${!ultimoControl?.talla ? 'text-muted-foreground font-normal italic' : 'text-muted-foreground'}`}>
                                         {talla}
                                     </span>
                                 </div>

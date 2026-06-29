@@ -43,7 +43,7 @@ export default function CunaMasPage() {
               de la anemia son fundamentales. El servicio se entrega mediante dos modalidades:
               <em> cuidado diurno</em> y <em>visitas domiciliarias</em>.
             </p>
-            <div className="w-full rounded-xl overflow-hidden shadow-md">
+            <div className="w-full rounded-xl overflow-hidden shadow-sm">
               <img
                 src="https://scontent.flim2-6.fna.fbcdn.net/v/t39.30808-6/476367111_921491863507836_6620660717608242723_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHVpCV7ya6GNbB4nmWRt5HseSpv4ZBJhMV5Km_hkEmExTCgEBGEYj4pnh0QY8c1qTPBxgeIXBRj5_E6GoxmvZ1O&_nc_ohc=Ql7JBsaOVUYQ7kNvwG2oVok&_nc_oc=AdlDL0NAow52W2XHx161pKaQHLhGZsklbG_WvdSqtrNxM6drBkzhFh97Wectpq_aL9U4Yfx2plgketzZBlRWotge&_nc_zt=23&_nc_ht=scontent.flim2-6.fna&_nc_gid=6fQz48PC4xA2Kyteczscjg&oh=00_Afg9smCtxVO61FShb5UBmoBP6qYGFeDvtTHKx6PaoblvaA&oe=691E9710"
                 alt="Programa Cuna Más"
@@ -118,7 +118,7 @@ export default function CunaMasPage() {
                     <p><strong>¿Quién cuida?</strong> Madres Cuidadoras —actoras comunales voluntarias—, capacitadas y supervisadas por personal técnico del PNCM.</p>
                   </div>
                   <div className="bg-muted border-l-4 border-primary p-4 rounded-lg">
-                    <h4 className="font-semibold text-sm mb-2">Componente Anemia / Nutrición (Directo)</h4>
+                    <h4 className="font-semibold text-sm mb-2 text-foreground">Componente Anemia / Nutrición (Directo)</h4>
                     <ul className="list-disc pl-4 text-sm text-muted-foreground flex flex-col gap-1">
                       <li><strong>Alimentación completa:</strong> tres comidas al día (refrigerio mañana, almuerzo, refrigerio tarde).</li>
                       <li><strong>Rico en hierro:</strong> comidas diseñadas para cubrir ~70% de necesidades calóricas y nutrientes, priorizando alimentos ricos en hierro (sangrecita, hígado, pescado, carnes).</li>
@@ -141,7 +141,7 @@ export default function CunaMasPage() {
                     <p><strong>Frecuencia:</strong> visita semanal (~1 hora) y sesiones grupales mensuales para socialización y aprendizaje colectivo.</p>
                   </div>
                   <div className="bg-muted border-l-4 border-secondary p-4 rounded-lg">
-                    <h4 className="font-semibold text-sm mb-2">Componente Anemia / Nutrición (Consejería)</h4>
+                    <h4 className="font-semibold text-sm mb-2 text-foreground">Componente Anemia / Nutrición (Consejería)</h4>
                     <ul className="list-disc pl-4 text-sm text-muted-foreground flex flex-col gap-1">
                       <li><strong>Consejería directa:</strong> demostraciones prácticas de preparación de comidas ricas en hierro.</li>
                       <li><strong>Suplementación:</strong> importancia de micronutrientes (gotas, Nutri-Hierro) y cuándo administrarlos.</li>
@@ -193,7 +193,7 @@ export default function CunaMasPage() {
                 </div>
               </div>
             ))}
-            <div className="w-full rounded-xl overflow-hidden shadow-md mt-2">
+            <div className="w-full rounded-xl overflow-hidden shadow-sm mt-2">
               <iframe
                 className="w-full h-64 md:h-96 rounded-xl"
                 src="https://www.youtube.com/embed/aXjIVtZX9Ls"

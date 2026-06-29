@@ -43,7 +43,7 @@ export const ContainerGraficas = ({ controlesBebe = [] }) => {
 
     if (controlesBebe.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center p-12 text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+            <div className="flex flex-col items-center justify-center p-12 text-muted-foreground bg-muted/50 rounded-xl border border-dashed border-border">
                 <p className="text-sm font-medium">No hay controles registrados para este bebé.</p>
             </div>
         );

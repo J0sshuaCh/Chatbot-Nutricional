@@ -54,8 +54,8 @@ export default function FormVincular(props) {
     };
 
     return (
-        <div className=" mx-auto mt-10 p-6 rounded-xl shadow-md border border-blue-200">
-            <h2 className="text-xl font-semibold text-gray-800 mb-5">
+        <div className=" mx-auto mt-10 p-6 rounded-xl shadow-sm border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-5">
                 Vincular Alergia a Bebé
             </h2>
 
@@ -63,7 +63,7 @@ export default function FormVincular(props) {
 
                 {/* Selector de Bebés */}
                 <div className="flex flex-col gap-1.5">
-                    <label className="text-xs  lg:text-sm  font-semibold text-zinc-500 px-1">
+                    <label className="text-xs  lg:text-sm  font-semibold text-muted-foreground px-1">
                         Seleccionar Bebé
                     </label>
                     <Controller
@@ -88,7 +88,7 @@ export default function FormVincular(props) {
 
                 {/* Selector de Alergias */}
                 <div className="flex flex-col gap-1.5">
-                    <label className="text-xs lg:text-sm font-semibold text-zinc-500 px-1">
+                    <label className="text-xs lg:text-sm font-semibold text-muted-foreground px-1">
                         Seleccionar Alergia
                     </label>
                     <Controller
@@ -116,9 +116,7 @@ export default function FormVincular(props) {
                 <BotonPrimary
                     type="submit"
                     disabled={isSubmitting}
-                    style="colorido"
-                    claseColor="bg-baby-mint"
-                    claseHover="hover:bg-baby-mint-hover"
+                    style="default"
                 >
                     {isSubmitting ? "Vinculando..." : "Vincular"}
                 </BotonPrimary>

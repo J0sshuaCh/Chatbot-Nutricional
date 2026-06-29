@@ -90,12 +90,12 @@ export const RecipesPage = () => {
             {/* COLUMNA DERECHA: Gestión de Alergias (Crece y hace scroll) */}
             <div className="flex-1 w-full space-y-6 min-h-screen">
 
-                <div className="bg-white p-3 sm:p-6 rounded-2xl shadow-lg border border-gray-200">
+                <div className="bg-card p-3 sm:p-6 rounded-xl shadow-lg border-border">
                     <div className="flex flex-row items-center gap-2 mb-2">
 
-                        <h1 className="text-xl font-bold  ">Lista de recetas
+                        <h1 className="text-xl font-bold text-foreground">Lista de recetas
                         </h1>
-                        <span className=" text-2xl font-bold text-gray-700"> ({(recetas?.length || 0)} recetas)</span>
+                        <span className=" text-2xl font-bold text-foreground"> ({(recetas?.length || 0)} recetas)</span>
                     </div>
                     {/* Aquí van tus secciones de añadir, crear y listar alergias */}
                     <ContainerLista

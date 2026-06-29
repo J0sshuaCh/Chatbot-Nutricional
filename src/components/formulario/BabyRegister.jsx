@@ -5,7 +5,7 @@ import * as z from 'zod'
 import Swal from 'sweetalert2'
 import { Input } from '../ui/Input' // Ajusta la ruta a tu Input
 import { BotonPrimary } from '../ui/BotonPrimary' // Ajusta la ruta a tu BotonPrimary
-import { useAuth } from '../../hook/useAuth'
+import { useAuth } from '../../lib/AuthContext'
 
 // 1. Definimos el esquema de validación con Zod
 const babySchema = z.object({
@@ -93,70 +93,70 @@ export const BabyRegister = ({
             <div className='absolute inset-0 bg-black/40 backdrop-blur-xs' onClick={onClose}></div>
 
             {/* Tarjeta del Formulario */}
-            <div className='relative z-10 w-full max-w-md p-6 bg-white rounded-3xl shadow-xl border border-zinc-100 flex flex-col gap-4'>
+            <div className='relative z-10 w-full max-w-md p-6 bg-card rounded-xl shadow-lg border-border flex flex-col gap-4'>
 
                 <div>
-                    <h2 className='text-xl font-bold text-zinc-800'>
+                    <h2 className='text-xl font-bold text-foreground'>
                         {accion === 'Editar' ? 'Editar datos de' : 'Registrar nuevo'} bebé
                     </h2>
-                    <p className='text-xs text-zinc-400 mt-1'>Ingresa los datos básicos para las pruebas.</p>
+                    <p className='text-xs text-muted-foreground mt-1'>Ingresa los datos básicos para las pruebas.</p>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
 
                     {/* CAMPO: NOMBRE (Usa tu Input) */}
                     <div className='flex flex-col gap-1.5'>
-                        <label htmlFor='name' className='text-xs lg:text-sm font-semibold text-zinc-500 px-1'>Nombre completo</label>
+                        <label htmlFor='name' className='text-xs lg:text-sm font-semibold text-muted-foreground px-1'>Nombre completo</label>
                         <Input
                             id="name"
                             placeholder="Ej. Sofía"
                             {...register('name')}
                         />
-                        {errors.name && <span className='text-xs text-red-500 px-1'>{errors.name.message}</span>}
+                        {errors.name && <span className='text-xs text-red-500 dark:text-red-400 px-1'>{errors.name.message}</span>}
                     </div>
 
                     {/* CAMPO: FECHA DE NACIMIENTO */}
                     <div className='flex flex-col gap-1.5'>
-                        <label htmlFor='fecha' className='text-xs lg:text-sm font-semibold text-zinc-500 px-1'>Fecha de nacimiento</label>
+                        <label htmlFor='fecha' className='text-xs lg:text-sm font-semibold text-muted-foreground px-1'>Fecha de nacimiento</label>
                         <Input
                             id='fecha'
                             type="date"
 
                             {...register('fecha_nacimiento')}
                         />
-                        {errors.fecha_nacimiento && <span className='text-xs text-red-500 px-1'>{errors.fecha_nacimiento.message}</span>}
+                        {errors.fecha_nacimiento && <span className='text-xs text-red-500 dark:text-red-400 px-1'>{errors.fecha_nacimiento.message}</span>}
                     </div>
 
                     {/* CAMPO: GÉNERO */}
                     <div className='flex flex-col gap-1.5'>
-                        <label className='text-xs font-semibold text-zinc-500 px-1'>Género</label>
+                        <label className='text-xs font-semibold text-muted-foreground px-1'>Género</label>
 
                         <div className='flex gap-6 items-center px-1 py-1.5'>
                             {/* OPCIÓN: MASCULINO (Azul Bebé) */}
-                            <label className='flex items-center gap-2 cursor-pointer text-sm text-zinc-700 font-medium select-none'>
+                            <label className='flex items-center gap-2 cursor-pointer text-sm text-foreground font-medium select-none'>
                                 <input
                                     type="radio"
                                     value="M"
                                     {...register('genero')}
-                                    className="w-4 h-4 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 checked:border-[#a8d1ff] checked:bg-[#d0e7ff] transition-all"
+                                    className="w-4 h-4 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 checked:border-[#a8d1ff] checked:bg-[#d0e7ff] dark:border-zinc-600 dark:checked:border-blue-400 dark:checked:bg-blue-900/40 transition-all"
                                 />
                                 <span>Niño</span>
                             </label>
 
                             {/* OPCIÓN: FEMENINO (Rosado Bebé) */}
-                            <label className='flex items-center gap-2 cursor-pointer text-sm text-zinc-700 font-medium select-none'>
+                            <label className='flex items-center gap-2 cursor-pointer text-sm text-foreground font-medium select-none'>
                                 <input
                                     type="radio"
                                     value="F"
                                     {...register('genero')}
-                                    className="w-4 h-4 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 checked:border-[#ffb3d1] checked:bg-[#ffd6e8] transition-all"
+                                    className="w-4 h-4 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 checked:border-[#ffb3d1] checked:bg-[#ffd6e8] dark:border-zinc-600 dark:checked:border-pink-400 dark:checked:bg-pink-900/40 transition-all"
                                 />
                                 <span>Niña</span>
                             </label>
                         </div>
 
                         {/* Mensaje de error de Zod */}
-                        {errors.genero && <span className='text-xs text-red-500 px-1'>{errors.genero.message}</span>}
+                        {errors.genero && <span className='text-xs text-red-500 dark:text-red-400 px-1'>{errors.genero.message}</span>}
                     </div>
 
 
@@ -166,9 +166,7 @@ export const BabyRegister = ({
                         <div className="flex-1">
                             <BotonPrimary
                                 type="submit"
-                                style="colorido"
-                                claseColor="bg-baby-mint"
-                                claseHover="hover:bg-baby-mint-hover"
+                                style="default"
                                 disabled={isSubmitting}
                             >
                                 {isSubmitting ? 'Guardando...' : (accion === 'Editar' ? 'Actualizar' : 'Registrar')}
@@ -178,8 +176,6 @@ export const BabyRegister = ({
                         <div className="flex-1">
                             <BotonPrimary
                                 style="gris"
-                                claseColor="bg-baby-mint"
-                                claseHover="hover:bg-baby-mint-hover"
                                 action={onClose}
                             >
                                 Cancelar

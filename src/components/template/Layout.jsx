@@ -7,7 +7,7 @@ export const Layout = () => {
     const [isOpen, setIsOpen] = useState(false);
     return (
         // Quitamos cualquier restricción de ancho
-        <div className='flex flex-col md:flex-row min-h-screen  bg-bg-gray/30'>
+        <div className='flex flex-col md:flex-row min-h-screen  bg-muted/30'>
             <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
             {/* Agregamos inline-block o min-w-max para que el contenido "empuje" las paredes */}

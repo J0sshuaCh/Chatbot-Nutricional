@@ -13,7 +13,7 @@ export const AnalisisBabyCard = () => {
 
     return (
         <div>
-            <h2 className="text-2xl font-bold text-black mb-6">
+            <h2 className="text-2xl font-bold text-foreground mb-6">
                 Historias Médicas
             </h2>
 
@@ -34,7 +34,7 @@ export const AnalisisBabyCard = () => {
                         ))}
                     </div>
                 ) : (
-                    <p className="text-gray-500">No se encontraron controles.</p>
+                    <p className="text-muted-foreground">No se encontraron controles.</p>
                 )
             )}
         </div>

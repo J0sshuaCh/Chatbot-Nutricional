@@ -116,7 +116,7 @@ export default function ChatbotPage() {
                       </AvatarFallback>
                     </Avatar>
                     <div className={cn(
-                      "rounded-2xl px-4 py-3 max-w-[85%] md:max-w-[75%] text-sm leading-relaxed",
+                      "rounded-xl px-4 py-3 max-w-[85%] md:max-w-[75%] text-sm leading-relaxed",
                       msg.sender === "user"
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted text-foreground"

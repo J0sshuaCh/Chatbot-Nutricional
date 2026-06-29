@@ -9,8 +9,8 @@ export function CheckboxOpcion({ label, checked, onChange }) {
             />
             <span
                 className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${checked
-                    ? "bg-zinc-900 border-zinc-900"
-                    : "border-zinc-300 group-hover:border-zinc-400"
+                    ? "bg-zinc-900 border-zinc-900 dark:bg-zinc-700 dark:border-zinc-700"
+                    : "border-zinc-300 group-hover:border-zinc-400 dark:border-zinc-600 dark:group-hover:border-zinc-500"
                     }`}
             >
                 {checked && (
@@ -27,7 +27,7 @@ export function CheckboxOpcion({ label, checked, onChange }) {
                     </svg>
                 )}
             </span>
-            <span className="text-sm text-zinc-700">{label}</span>
+            <span className="text-sm text-foreground">{label}</span>
         </label>
     );
 }

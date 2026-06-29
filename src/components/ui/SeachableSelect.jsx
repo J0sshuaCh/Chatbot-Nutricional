@@ -22,7 +22,7 @@ function CheckIcon() {
 function ChevronIcon({ open }) {
     return (
         <svg
-            className={`w-4 h-4 shrink-0 text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 shrink-0 text-muted-foreground transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
@@ -122,11 +122,11 @@ export default function SearchableSelect({
                 }}
                 className={`
                     w-full flex items-center justify-between gap-2
-                    px-2 bg-white border cursor-pointer select-none
-                    text-gray-900 transition-colors duration-150 outline-none
+                    px-2 bg-card border cursor-pointer select-none
+                    text-foreground transition-colors duration-150 outline-none
                     ${open
-                        ? "border-gray-400 rounded-t-lg rounded-b-none"
-                        : "border-gray-300 rounded-lg hover:border-gray-400 hover:bg-slate-100/50"
+                        ? "border-gray-400 rounded-t-lg rounded-b-none dark:border-gray-500"
+                        : "border-gray-300 rounded-lg hover:border-gray-400 hover:bg-slate-100/50 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-800/50"
                     }
                 `}
             >
@@ -146,8 +146,8 @@ export default function SearchableSelect({
                         if (e.key === "Enter" && hoveredIndex >= 0) handleSelect(filtered[hoveredIndex]);
                     }}
                     //utilizar el  isPlaceholderShown para cambiar el color de placehol
-                    className={`w-full px-3 py-2.5 text-sm bg-transparent text-gray-900 outline-none 
-                         ${isPlaceholderShown ? "placeholder:text-gray-400" : "placeholder:text-blue-700"}`
+                    className={`w-full px-3 py-2.5 text-sm bg-transparent text-foreground outline-none 
+                         ${isPlaceholderShown ? "placeholder:text-muted-foreground" : "placeholder:text-primary"}`
                     }
                 />
                 <ChevronIcon open={open} />
@@ -157,12 +157,12 @@ export default function SearchableSelect({
             {open && (
                 <div
                     role="listbox"
-                    className="absolute top-full left-0 right-0 z-50 bg-white border border-t-0 border-gray-300 rounded-b-lg overflow-hidden shadow-md"
+                    className="absolute top-full left-0 right-0 z-50 bg-popover border border-t-0 border-border rounded-b-lg overflow-hidden shadow-sm"
                 >
                     {/* List */}
                     <div className="max-h-40 overflow-y-auto">
                         {filtered.length === 0 ? (
-                            <p className="px-3 py-3 text-xs text-gray-400 text-center">
+                            <p className="px-3 py-3 text-xs text-muted-foreground text-center">
                                 Sin resultados
                             </p>
                         ) : (
@@ -180,10 +180,10 @@ export default function SearchableSelect({
                                         className={`
                                             flex items-center gap-2 px-3 py-2.5 cursor-pointer text-sm transition-colors duration-100
                                             ${active
-                                                ? "bg-blue-50 text-blue-700"
+                                                ? "bg-accent text-primary"
                                                 : hovered
-                                                    ? "bg-gray-100 text-gray-900"
-                                                    : "text-gray-900"
+                                                    ? "bg-muted text-foreground"
+                                                    : "text-foreground"
                                             }
                                         `}
                                     >
@@ -201,8 +201,8 @@ export default function SearchableSelect({
                                                 className={`
                                                     text-[11px] px-2 py-0.5 rounded-full border shrink-0
                                                     ${active
-                                                        ? "bg-white/30 text-blue-700 border-transparent"
-                                                        : "bg-gray-100 text-gray-500 border-gray-200"
+                                                        ? "bg-white/30 text-primary border-transparent dark:bg-white/10"
+                                                        : "bg-muted text-muted-foreground border-border"
                                                     }
                                                 `}
                                             >

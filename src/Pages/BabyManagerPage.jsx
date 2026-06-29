@@ -14,28 +14,28 @@ export const BabyManagerPage = () => {
 
         <div
           onClick={() => navigate("/babies")}
-          className='bg-white rounded-2xl shadow-lg border border-gray-200 p-5  overflow-y-auto transition-all duration-300 cursor-pointer'
+          className='bg-card rounded-xl shadow-lg border-border p-5  overflow-y-auto transition-all duration-300 cursor-pointer'
         >
           <ProfileBabyCard />
         </div>
 
         <div
           onClick={() => navigate("/medical-history")}
-          className=' bg-white rounded-2xl shadow-lg border border-gray-200 p-5  overflow-y-auto transition-all duration-300 cursor-pointer'
+          className=' bg-card rounded-xl shadow-lg border border-border p-5  overflow-y-auto transition-all duration-300 cursor-pointer'
         >
           <AnalisisBabyCard />
         </div>
 
         <div
           onClick={() => navigate("/allergies")}
-          className='bg-white rounded-2xl shadow-lg border border-gray-200 p-5  overflow-y-auto transition-all duration-300 cursor-pointer'
+          className='bg-card rounded-xl shadow-lg border-border p-5  overflow-y-auto transition-all duration-300 cursor-pointer'
         >
           <AlergiasBabyCard />
         </div>
 
         <div
           onClick={() => navigate("/recipes")}
-          className='bg-white rounded-2xl shadow-lg border border-gray-200 p-5    overflow-y-auto transition-all duration-300 cursor-pointer'
+          className='bg-card rounded-xl shadow-lg border-border p-5    overflow-y-auto transition-all duration-300 cursor-pointer'
         >
           <RecetasBabyCard />
         </div>

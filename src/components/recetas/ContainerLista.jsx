@@ -13,7 +13,7 @@ export const ContainerLista = ({ recetas, isLoading }) => {
                 ) : (
                     <>
                         {recetas && recetas.length === 0 ? (
-                            <p className="text-gray-500 text-center py-10">No se encontraron recetas.</p>
+                            <p className="text-muted-foreground text-center py-10">No se encontraron recetas.</p>
                         ) : (
                             <div className="flex flex-wrap gap-6 justify-start items-stretch">
                                 {recetas?.map((receta) => (

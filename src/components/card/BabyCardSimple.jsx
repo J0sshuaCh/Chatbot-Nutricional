@@ -16,11 +16,11 @@ export const BabyCardSimple = ({ baby }) => {
             type="button"
             onClick={() => setBabySelect(baby)}
             className={`
-                flex flex-col items-center gap-2 p-3 rounded-2xl border-2 transition-all
-                w-28 sm:w-32 shadow-md cursor-pointer
+                flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
+                w-28 sm:w-32 shadow-sm cursor-pointer
                 ${isSelected
-                    ? 'border-[#7c3aed] bg-violet-50'
-                    : 'border-gray-200  bg-white hover:border-violet-300'
+                    ? 'border-[#7c3aed] bg-violet-50 dark:bg-violet-900/30'
+                    : 'border-border bg-card hover:border-violet-300'
                 }
             `}
         >
@@ -33,7 +33,7 @@ export const BabyCardSimple = ({ baby }) => {
             <span
                 className={`
                     text-sm sm:text-base font-medium truncate w-full text-center
-                    'text-slate-700
+                    'text-foreground
                 `}
             >
                 {baby.name}

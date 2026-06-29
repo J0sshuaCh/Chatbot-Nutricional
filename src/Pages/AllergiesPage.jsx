@@ -2,12 +2,11 @@ import React, { useEffect } from 'react'
 import { Calendar, Weight, Droplet, AlertTriangle, X } from 'lucide-react'
 import { BabyProfileCard } from '../components/card/BabyProfileCard'
 import { useAllergies, useDeleteAllergy } from '../hook/useAllergiesQuery'
-import { useAuth } from '../hook/useAuth'
+import { useAuth } from '../lib/AuthContext'
 import { useBebes } from '../hook/useBabiesQuery'
 import FormVincular from '../components/formulario/FormVincular'
 import { useBabySelectStore } from '../store/BabySelectStore'
 import { ALLERGY_CATEGORIES_LIST } from '../constant/categoriaAlergias'
-import Select from '../components/ui/Select'
 import AllergiesRegister from '../components/formulario/AllergiesRegister'
 import AllergiesTabla from '../components/tabla/AllergiesTabla'
 import { useAlergiasBebe, useAsociarAlergiaBebe, useEliminarAlergiaBebe } from '../hook/useAlergiaBebeQuery'
@@ -84,8 +83,8 @@ export const AllergiesPage = () => {
             {/* COLUMNA DERECHA: Gestión de Alergias (Crece y hace scroll) */}
             <div className="flex-1 w-full space-y-6">
 
-                <div className="bg-white p-3 sm:p-6 rounded-2xl shadow-md border border-slate-200">
-                    <h1 className="text-xl font-bold  mb-6">Gestión de Alergias</h1>
+                <div className="bg-card p-3 sm:p-6 rounded-xl shadow-sm border border-border">
+                    <h1 className="text-xl font-bold text-foreground mb-6">Gestión de Alergias</h1>
                     {/* Aquí van tus secciones de añadir, crear y listar alergias */}
                     <div className="space-y-4">
                         <FormVincular
@@ -94,8 +93,8 @@ export const AllergiesPage = () => {
                             asociarAlergiaBebe={asociarAlergiaBebe}
                         />
                         {/* Contenido largo simulado para probar el scroll */}
-                        <div className=" p-4  rounded-xl border border-bg-dorado shadow-md">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-5">
+                        <div className=" p-4  rounded-xl border border-accent/10 shadow-sm">
+                            <h2 className="text-xl font-semibold text-foreground mb-5">
                                 Alergias Actuales de {babySelect.name || "[Nombre del Bebe]"}
                             </h2>
 
@@ -108,15 +107,15 @@ export const AllergiesPage = () => {
                                         {alergiasBebe && alergiasBebe.length > 0 ? (
                                             alergiasBebe.map((ab, index) => (
                                                 <div key={index}
-                                                    className="flex items-center  gap-1.5 pl-2 pr-4 py-1 bg-red-50 border border-red-400 rounded-full w-fit text-sm font-medium text-red-500"
+                                                    className="flex items-center  gap-1.5 pl-2 pr-4 py-1 bg-red-50 border border-red-400 rounded-full w-fit text-sm font-medium text-red-500 dark:bg-red-900/30 dark:border-red-600 dark:text-red-400"
                                                 >
-                                                    <div className="w-9 h-9 rounded-2xl bg-orange-100 flex items-center justify-center shrink-0">
-                                                        <AlertTriangle className="w-5 h-5 text-orange-400" />
+                                                    <div className="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center shrink-0 dark:bg-orange-900/30">
+                                                        <AlertTriangle className="w-5 h-5 text-orange-400 dark:text-orange-300" />
                                                     </div>
                                                     <span>{ab.descrip_alergia}</span>
                                                     <button
                                                         type="button"
-                                                        className="ml-1 text-red-400 hover:text-red-700 transition-colors cursor-pointer"
+                                                        className="ml-1 text-red-400 hover:text-red-700 dark:text-red-300 dark:hover:text-red-300 transition-colors cursor-pointer"
                                                         onClick={() => { handleEliminarClick(ab.id_alergia, ab.descrip_alergia) }}
                                                     >
                                                         <X className="w-5 h-5" />
@@ -124,7 +123,7 @@ export const AllergiesPage = () => {
                                                 </div>
                                             ))
                                         ) : (
-                                            <p className="text-gray-400 text-center py-4 font-medium w-full">
+                                            <p className="text-muted-foreground text-center py-4 font-medium w-full">
                                                 No tiene alergias
                                             </p>
                                         )}

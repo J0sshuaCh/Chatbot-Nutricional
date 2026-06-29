@@ -61,9 +61,9 @@ export default function BabiesTabla({
 
   return (
     /* 1. Marcamos el envoltorio principal como contenedor de referencia */
-    <div className="@container bg-white rounded-[2rem] @md:rounded-[2.5rem] pt-8 p-6 @md:pt-6 @md:p-8 shadow-lg border border-gray-200">
+    <div className="@container bg-card rounded-[2rem] @md:rounded-[2.5rem] pt-8 p-6 @md:pt-6 @md:p-8 shadow-lg border-border">
 
-      <h2 className="text-xl @md:text-2xl font-bold text-black mb-6">
+      <h2 className="text-xl @md:text-2xl font-bold text-foreground mb-6">
         Tabla de Bebés
       </h2>
 
@@ -76,11 +76,11 @@ export default function BabiesTabla({
               <div
                 key={baby.id}
                 /* Cambia de fila a columna según el tamaño del contenedor */
-                className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-4 py-4 border-b border-gray-200 last:border-b-0"
+                className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-4 py-4 border-b border-border last:border-b-0"
               >
                 {/* Sección Izquierda: Avatar e Información básica */}
                 <div className="flex items-center gap-4 min-w-0 @md:min-w-[200px]">
-                  <div className="w-14 h-14 @md:w-16 @sm:h-16 rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center shrink-0">
+                  <div className="w-14 h-14 @md:w-16 @sm:h-16 rounded-xl overflow-hidden bg-muted flex items-center justify-center shrink-0">
                     {baby.genero === 'M' ? (
                       <BabyNino className="w-full h-full object-cover" />
                     ) : (
@@ -89,10 +89,10 @@ export default function BabiesTabla({
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <h3 className="font-bold text-base @md:text-lg text-black truncate">{baby.name}</h3>
+                      <h3 className="font-bold text-base @md:text-lg text-foreground truncate">{baby.name}</h3>
                       {baby.genero === 'M' && <span className="text-base shrink-0">👶🏼</span>}
                     </div>
-                    <p className="text-gray-500 font-medium text-sm">
+                    <p className="text-muted-foreground font-medium text-sm">
                       {calculateAge(baby.fecha_nacimiento)}
                     </p>
                   </div>
@@ -100,10 +100,10 @@ export default function BabiesTabla({
 
                 {/* Sección Central: Badge de color y fecha */}
                 <div className="flex flex-row @lg:flex-col gap-2 @md:gap-1 items-center justify-between ">
-                  <span className={`px-3 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap ${baby.genero === "M" ? 'bg-baby-blue' : 'bg-baby-pink'}`}>
+                  <span className={`px-3 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap text-foreground ${baby.genero === "M" ? 'bg-secondary/20' : 'bg-primary/10'}`}>
                     Profile color
                   </span>
-                  <span className="text-black font-medium text-sm whitespace-nowrap">
+                  <span className="text-foreground font-medium text-sm whitespace-nowrap">
                     {formatDate(baby.fecha_nacimiento)}
                   </span>
                 </div>
@@ -114,14 +114,14 @@ export default function BabiesTabla({
                     variant="edit"
                     icon={Edit2}
                     onAction={() => actionEdit(baby)}
-                    style="bg-baby-blue hover:bg-[#b5def2] text-black p-3 @md:p-3.5 rounded-full transition-colors"
+                    style="bg-secondary/20 hover:bg-secondary/30 text-foreground p-3 @md:p-3.5 rounded-full transition-colors"
                   />
 
                   <BotonIcon
                     variant="delete"
                     icon={Trash2}
                     onAction={() => handleDeleteConfirm(baby.id_bebe)}
-                    style="bg-baby-pink hover:bg-baby-pink-hover text-black p-3 @md:p-3.5 rounded-full transition-colors"
+                    style="bg-primary/10 hover:bg-primary/20 text-foreground p-3 @md:p-3.5 rounded-full transition-colors"
                   />
                 </div>
               </div>

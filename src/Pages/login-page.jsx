@@ -36,7 +36,7 @@ export default function LoginPage() {
       <div className="flex flex-col items-center justify-start min-h-[calc(100dvh-120px)] px-4 py-2 md:py-4">
         <div className="w-full max-w-md flex flex-col gap-6">
           <div className="text-center flex flex-col items-center gap-3">
-            <div className="size-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <div className="size-16 rounded-xl bg-primary/10 flex items-center justify-center">
               <LogIn className="size-8 text-primary" />
             </div>
             <div>
