@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, X } from 'lucide-react';
-import { Link } from "react-router-dom";
+import { useState } from 'react'
+import { Link } from "react-router-dom"
+import { ChevronDown, ChevronUp, X, ArrowLeft, Beef, Leaf, Sparkles } from 'lucide-react'
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import PageMeta from "@/components/page-meta"
+import { Dialog, DialogContent, DialogTitle, DialogClose } from "@/components/ui/dialog"
+
 export default function InformacionNutricional() {
-  const [categoriaActiva, setCategoriaActiva] = useState('todas');
-  const [alimentosExpandidos, setAlimentosExpandidos] = useState({});
-  const [imagenAmpliada, setImagenAmpliada] = useState(null);
+  const [categoriaActiva, setCategoriaActiva] = useState('todas')
+  const [alimentosExpandidos, setAlimentosExpandidos] = useState({})
+  const [imagenAmpliada, setImagenAmpliada] = useState(null)
 
   const alimentos = [
     {
@@ -101,7 +108,7 @@ export default function InformacionNutricional() {
       id: 7,
       nombre: "Frijoles/Frejoles",
       categoria: "vegetal",
-       imagen: "https://imgmedia.buenazo.pe/640x371/buenazo/original/2021/05/04/60917b2f4fd7611159462e03.webp",
+      imagen: "https://imgmedia.buenazo.pe/640x371/buenazo/original/2021/05/04/60917b2f4fd7611159462e03.webp",
       descripcion: "Menestra con hierro no hemo y proteína, ideal en purés.",
       hierro: "5.1-6.6 mg/taza",
       proteina: "15 g/taza",
@@ -146,7 +153,7 @@ export default function InformacionNutricional() {
       id: 10,
       nombre: "Avena Fortificada",
       categoria: "vegetal",
-       imagen: "https://content21.sabervivirtv.com/medio/2024/02/28/avena_5963dcb7_886668116(1)_240228140755_1200x630.webp",
+      imagen: "https://content21.sabervivirtv.com/medio/2024/02/28/avena_5963dcb7_886668116(1)_240228140755_1200x630.webp",
       descripcion: "Cereal fortificado recomendado como primera fuente de hierro.",
       hierro: "4-8 mg/porción",
       proteina: "5-7 g/porción",
@@ -187,240 +194,210 @@ export default function InformacionNutricional() {
         "Añadir fruta cítrica al servir"
       ]
     }
-  ];
+  ]
 
   const categorias = [
-    { id: 'todas', nombre: 'Todos', emoji: '🍽️' },
-    { id: 'animal', nombre: 'Origen Animal', emoji: '🥩' },
-    { id: 'vegetal', nombre: 'Origen Vegetal', emoji: '🌱' }
-  ];
+    { id: 'todas', nombre: 'Todos', icon: Sparkles },
+    { id: 'animal', nombre: 'Origen Animal', icon: Beef },
+    { id: 'vegetal', nombre: 'Origen Vegetal', icon: Leaf }
+  ]
 
-  const alimentosFiltrados = categoriaActiva === 'todas' 
-    ? alimentos 
-    : alimentos.filter(a => a.categoria === categoriaActiva);
+  const alimentosFiltrados = categoriaActiva === 'todas'
+    ? alimentos
+    : alimentos.filter(a => a.categoria === categoriaActiva)
 
   const toggleAlimento = (id) => {
     setAlimentosExpandidos(prev => ({
       ...prev,
       [id]: !prev[id]
-    }));
-  };
-
-  const abrirImagen = (imagen, nombre) => {
-    setImagenAmpliada({ imagen, nombre });
-  };
-
-  const cerrarImagen = () => {
-    setImagenAmpliada(null);
-  };
+    }))
+  }
 
   return (
-    <div className="min-h-screen  ">
-      {/* Header */}
-      <div className="max-w-6xl mx-auto mb-8">
-        <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-            📚 Información Nutricional
+    <>
+      <PageMeta title="Información Nutricional" description="Alimentos ricos en hierro, clasificados por categorías, para la prevención de anemia en niños y madres" />
+      <div className="flex flex-col px-4 py-6">
+      <div className="w-full max-w-6xl mx-auto flex flex-col gap-6">
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" aria-label="Volver al inicio" nativeButton={false} render={<Link to="/" />}>
+            <ArrowLeft />
+          </Button>
+          <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground">
+            Información Nutricional
           </h1>
-          <p className="text-gray-600 text-lg">
-            Alimentos ricos en hierro para bebés de 6 a 12 meses
-          </p>
-          <div className="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
-            <p className="text-sm text-gray-700">
-              ⚠️ <strong>Importante:</strong> Esta información es educativa. Consulta con un pediatra o nutricionista para un plan personalizado.
-            </p>
-          </div>
         </div>
-      </div>
 
-      {/* Filtros de Categoría */}
-      <div className="max-w-6xl mx-auto mb-6">
-        <div className="flex flex-wrap gap-3 justify-center ">
+        {/* Intro card */}
+        <Card>
+          <CardContent className="p-6 md:p-8 flex flex-col gap-3">
+            <h2 className="font-heading text-xl font-bold text-card-foreground">
+              Alimentos ricos en hierro para bebés de 6 a 12 meses
+            </h2>
+            <p className="text-muted-foreground">
+              Guías sobre alimentos ricos en hierro, vitaminas y nutrientes esenciales para el desarrollo infantil.
+            </p>
+            <div className="bg-muted border-l-4 border-accent rounded-r-lg px-4 py-3 text-sm text-muted-foreground">
+              <strong className="text-foreground">Importante:</strong> Esta información es educativa.
+              Consulta con un pediatra o nutricionista para un plan personalizado.
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Category filter */}
+        <div className="flex flex-wrap gap-3 justify-center">
           {categorias.map(cat => (
-            <button
+            <Button
               key={cat.id}
+              variant={categoriaActiva === cat.id ? "default" : "outline"}
               onClick={() => setCategoriaActiva(cat.id)}
-              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-xl hover:-translate-y-1 ${
-                categoriaActiva === cat.id
-                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white scale-105'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
-              }`}
+              className={cn(
+                categoriaActiva === cat.id && "scale-105"
+              )}
             >
-              <span className="mr-2">{cat.emoji}</span>
+              <cat.icon data-icon="inline-start" />
               {cat.nombre}
-            </button>
+            </Button>
           ))}
         </div>
-      </div>
 
-      {/* Grid de Alimentos */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 ">
-        {alimentosFiltrados.map(alimento => (
-          <div
-            key={alimento.id}
-            className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-xl hover:-translate-y-1 "
-          >
-            {/* Imagen */}
-            <div 
-              className="relative h-48 overflow-hidden cursor-pointer group"
-              onClick={() => abrirImagen(alimento.imagen, alimento.nombre)}
-            >
-              <img
-                src={alimento.imagen}
-                alt={alimento.nombre}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                <span className="text-white opacity-0 group-hover:opacity-100 text-sm font-medium">
-                  Click para ampliar
-                </span>
-              </div>
-              <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold ${
-                alimento.categoria === 'animal' 
-                  ? 'bg-red-500 text-white' 
-                  : 'bg-green-500 text-white'
-              }`}>
-                {alimento.categoria === 'animal' ? '🥩 Animal' : '🌱 Vegetal'}
-              </div>
-            </div>
-
-            {/* Contenido */}
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                {alimento.nombre}
-              </h3>
-              <p className="text-gray-600 mb-4">
-                {alimento.descripcion}
-              </p>
-
-              {/* Info Nutricional en Grid */}
-              <div className="grid grid-cols-3 gap-3 mb-4">
-                <div className="bg-red-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl mb-1">⚡</div>
-                  <div className="text-xs text-gray-600">Hierro</div>
-                  <div className="font-bold text-sm text-red-700">{alimento.hierro}</div>
-                </div>
-                <div className="bg-blue-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl mb-1">💪</div>
-                  <div className="text-xs text-gray-600">Proteína</div>
-                  <div className="font-bold text-sm text-blue-700">{alimento.proteina}</div>
-                </div>
-                <div className="bg-yellow-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl mb-1">🔋</div>
-                  <div className="text-xs text-gray-600">Energía</div>
-                  <div className="font-bold text-sm text-yellow-700">{alimento.energia}</div>
-                </div>
-              </div>
-
-              {/* Botón Ver Más */}
-              <button
-                onClick={() => toggleAlimento(alimento.id)}
-                className="w-full flex items-center justify-between bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-3 rounded-xl font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-300"
+        {/* Food grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {alimentosFiltrados.map(alimento => (
+            <Card key={alimento.id} className="overflow-hidden">
+              {/* Image */}
+              <div
+                className="relative h-48 overflow-hidden cursor-pointer group"
+                onClick={() => setImagenAmpliada({ imagen: alimento.imagen, nombre: alimento.nombre })}
               >
-                <span>
-                  {alimentosExpandidos[alimento.id] ? 'Ver menos' : 'Ver recomendaciones'}
-                </span>
-                {alimentosExpandidos[alimento.id] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-              </button>
+                <img
+                  src={alimento.imagen}
+                  alt={alimento.nombre}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
+                <Badge
+                  variant={alimento.categoria === 'animal' ? 'default' : 'secondary'}
+                  className="absolute top-3 right-3"
+                >
+                  {alimento.categoria === 'animal' ? <Beef data-icon="inline-start" /> : <Leaf data-icon="inline-start" />}
+                  {alimento.categoria === 'animal' ? 'Animal' : 'Vegetal'}
+                </Badge>
+              </div>
 
-              {/* Recomendaciones Expandibles */}
-              {alimentosExpandidos[alimento.id] && (
-                <div className="mt-4 bg-purple-50 rounded-xl p-4 animate-fadeIn">
-                  <h4 className="font-bold text-gray-800 mb-3 flex items-center">
-                    <span className="mr-2">👶</span>
-                    Recomendaciones para padres:
-                  </h4>
-                  <ul className="space-y-2">
-                    {alimento.recomendaciones.map((rec, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <span className="text-purple-600 mr-2 mt-1">✓</span>
-                        <span className="text-gray-700 text-sm">{rec}</span>
-                      </li>
-                    ))}
-                  </ul>
+              {/* Content */}
+              <CardContent className="p-6 flex flex-col gap-4">
+                <div>
+                  <h3 className="font-heading text-xl font-bold text-card-foreground mb-1">
+                    {alimento.nombre}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {alimento.descripcion}
+                  </p>
                 </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
 
-      {/* Nota Final */}
-      <div className="max-w-6xl mx-auto mt-8 bg-white rounded-2xl shadow-lg p-6">
-        <h3 className="font-bold text-gray-800 mb-3 text-lg">
-          💡 Consejos Importantes:
-        </h3>
-        <ul className="space-y-2 text-gray-700">
-          <li className="flex items-start">
-            <span className="text-green-600 mr-2">•</span>
-            <span>Combina alimentos vegetales con vitamina C (limón, tomate, naranja) para mejorar la absorción de hierro</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-green-600 mr-2">•</span>
-            <span>Evita dar té o grandes cantidades de lácteos en la misma comida rica en hierro</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-green-600 mr-2">•</span>
-            <span>Varía las fuentes de hierro durante la semana para una nutrición completa</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-green-600 mr-2">•</span>
-            <span>Ajusta texturas según la edad: puré fino (6 meses), aplastado (7-8 meses), picado (9-12 meses)</span>
-          </li>
-        </ul>
-      </div>
+                {/* Nutricional info */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-primary/10 rounded-lg p-3 text-center">
+                    <p className="text-xs text-muted-foreground mb-1">Hierro</p>
+                    <p className="font-bold text-sm text-primary">{alimento.hierro}</p>
+                  </div>
+                  <div className="bg-secondary/10 rounded-lg p-3 text-center">
+                    <p className="text-xs text-muted-foreground mb-1">Proteína</p>
+                    <p className="font-bold text-sm text-secondary">{alimento.proteina}</p>
+                  </div>
+                  <div className="bg-accent/10 rounded-lg p-3 text-center">
+                    <p className="text-xs text-muted-foreground mb-1">Energía</p>
+                    <p className="font-bold text-sm text-accent">{alimento.energia}</p>
+                  </div>
+                </div>
 
-      {/* 🔘 Botón Volver */}
-      <div className="flex justify-center mt-8">
-        <Link
-          to="/"
-          className="inline-block border-2 border-white text-white hover:bg-white hover:text-indigo-700 font-semibold py-2 px-6 rounded-full shadow-md transition-all duration-300"
-        >
-          Volver al Menú Principal
-        </Link>
-      </div>  
+                {/* Toggle recommendations */}
+                <Button
+                  variant={alimentosExpandidos[alimento.id] ? "secondary" : "default"}
+                  onClick={() => toggleAlimento(alimento.id)}
+                >
+                  {alimentosExpandidos[alimento.id] ? <ChevronUp data-icon="inline-start" /> : <ChevronDown data-icon="inline-start" />}
+                  {alimentosExpandidos[alimento.id] ? 'Ver menos' : 'Ver recomendaciones'}
+                </Button>
 
-      {/* Modal de Imagen Ampliada */}
-      {imagenAmpliada && (
-        <div 
-          className="fixed inset-0 bg-black/[0.9] bg-opacity-80 z-50 flex items-center justify-center p-4 animate-fadeIn"
-          onClick={cerrarImagen}
-        >
-          <div className="relative max-w-4xl max-h-[90vh]">
-            <button
-              onClick={cerrarImagen}
-              className="absolute -top-12 right-0 bg-white text-gray-800 rounded-full p-2 hover:bg-gray-200 transition-colors"
-            >
-              <X size={24} />
-            </button>
-            <img
-              src={imagenAmpliada.imagen}
-              alt={imagenAmpliada.nombre}
-              className="max-w-full max-h-[80vh] rounded-2xl shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            />
-            <div className="text-white text-center mt-4 text-lg font-medium">
-              {imagenAmpliada.nombre}
-            </div>
-          </div>
+                {alimentosExpandidos[alimento.id] && (
+                  <div className="bg-muted rounded-xl p-4 animate-fadeIn flex flex-col gap-2">
+                    <h4 className="font-heading font-bold text-foreground flex items-center gap-2">
+                      <Sparkles className="size-4 text-primary" />
+                      Recomendaciones para padres:
+                    </h4>
+                    <ul className="flex flex-col gap-2">
+                      {alimento.recomendaciones.map((rec, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <span className="text-primary mt-0.5 shrink-0">✓</span>
+                          <span>{rec}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      )}
 
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-      `}</style>
+        {/* Tips card */}
+        <Card>
+          <CardContent className="p-6 flex flex-col gap-3">
+            <h3 className="font-heading font-bold text-lg text-card-foreground flex items-center gap-2">
+              <Sparkles className="size-5 text-primary" />
+              Consejos Importantes:
+            </h3>
+            <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Combina alimentos vegetales con vitamina C (limón, tomate, naranja) para mejorar la absorción de hierro</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Evita dar té o grandes cantidades de lácteos en la misma comida rica en hierro</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Varía las fuentes de hierro durante la semana para una nutrición completa</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Ajusta texturas según la edad: puré fino (6 meses), aplastado (7-8 meses), picado (9-12 meses)</span>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Back button */}
+        <div className="flex justify-center">
+          <Button variant="link" nativeButton={false} render={<Link to="/" />}>
+            Volver al Menú Principal
+          </Button>
+        </div>
+      </div>
+
+      {/* Image modal */}
+      <Dialog open={!!imagenAmpliada} onOpenChange={(open) => !open && setImagenAmpliada(null)}>
+        <DialogContent className="max-w-4xl p-2">
+          <DialogTitle className="sr-only">Imagen ampliada</DialogTitle>
+          <DialogClose />
+          {imagenAmpliada && (
+            <div className="flex flex-col items-center gap-3 p-2">
+              <img
+                src={imagenAmpliada.imagen}
+                alt={imagenAmpliada.nombre}
+                loading="lazy"
+                className="max-w-full max-h-[80dvh] rounded-xl object-contain"
+              />
+              <p className="text-sm font-medium text-foreground">{imagenAmpliada.nombre}</p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
-  );
+    </>
+  )
 }

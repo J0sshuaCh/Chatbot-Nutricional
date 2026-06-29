@@ -1,43 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { Card, CardContent } from "@/components/ui/card"
 
-export default function MenuItem({ icon, title, description, type }) {
-
-  const mostrarSeccion = () => {
-    alert(
-      `Sección "${title}" en desarrollo.\n\nEsta funcionalidad estará disponible en las próximas semanas del proyecto.`
-    );
-  };
-
-  // Determinar si el título tiene una ruta activa
-  const rutasActivas = {
-    "Gestión de mi Bebé": "/login",
-    "Chatbot ANMI": "/chatbot",
-    "Información Nutricional": "/informacion-nutricional",
-    "Servicios del Estado": "/servicios-estado",
-    "Configuración y Privacidad": "/configuracion",
-    "Guía de Platillos Nutritivos": "/guia-platillos", // <--- AGREGADO
-    "Biblioteca de Documentos": "/biblioteca",         // <--- AGREGADO
-  };
-
-  // Si el título está en rutas activas, se muestra como Link
-  if (rutasActivas[title]) {
-    return (
-      <Link to={rutasActivas[title]} className={`menu-item ${type}`}>
-        <div className="icon">{icon}</div>
-        <h2 className="font-bold ">{title}</h2>
-        <p>{description}</p>
-      </Link>
-    );
-  }
-
-  // Si no está en rutas activas, se muestra como "En desarrollo"
+export default function MenuItem({ icon: Icon, title, description, route }) {
   return (
-    <div className={`menu-item ${type}`} onClick={mostrarSeccion}>
-      <div className="icon">{icon}</div>
-      <h2 className="font-bold">{title}</h2>
-      <p>{description}</p>
-      <span className="status desarrollo">En desarrollo</span>
-    </div>
-  );
+    <Link to={route} className="block group">
+      <Card className="h-full transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 cursor-pointer">
+        <CardContent className="flex flex-col gap-3 p-6">
+          <Icon className="size-10 text-primary" aria-hidden="true" />
+          <h2 className="font-heading text-lg font-bold text-card-foreground">
+            {title}
+          </h2>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {description}
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
+  )
 }

@@ -1,11 +1,12 @@
-// src/pages/biblioteca-page.jsx
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import PageMeta from "@/components/page-meta"
+import { ArrowLeft, Search, FileText, ExternalLink } from "lucide-react"
 
-import React from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-
-// --- Base de Datos Centralizada de Documentos ---
-// Nota: La ruta del PDF ahora usa el nombre de archivo exacto con espacios y caracteres.
 const documents = [
   {
     slug: "recetario-nutritivo-2014",
@@ -124,92 +125,105 @@ const documents = [
     date: "N/A",
     previewImg: "/previews/13.png",
   },
-];
-// ------------------------------------------------------------------------
+]
 
 export default function BibliotecaPage() {
-  // ... (resto del código JSX del componente BibliotecaPage)
+  const [search, setSearch] = useState("")
+
+  const filtered = documents.filter((doc) =>
+    doc.title.toLowerCase().includes(search.toLowerCase()) ||
+    doc.description.toLowerCase().includes(search.toLowerCase()) ||
+    doc.source.toLowerCase().includes(search.toLowerCase())
+  )
 
   return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <div className="bg-white shadow-md sticky top-0 z-50 rounded-b-3xl">
-        <div className="max-w-5xl mx-auto flex items-center gap-4 p-4">
-          <button
-            onClick={() => (window.location.href = "/")}
-            className="p-2 hover:bg-gray-200 rounded-full transition"
-          >
-            <ArrowLeft size={22} />
-          </button>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-            📖 Biblioteca de Documentos
+    <>
+      <PageMeta title="Biblioteca" description="Documentos y guías oficiales sobre nutrición infantil, anemia y alimentación complementaria en el Perú" />
+      <div className="flex flex-col px-4 py-6">
+      <div className="w-full max-w-5xl mx-auto flex flex-col gap-6">
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" aria-label="Volver al inicio" nativeButton={false} render={<Link to="/" />}>
+            <ArrowLeft />
+          </Button>
+          <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground">
+            Biblioteca de Documentos
           </h1>
         </div>
-      </div>
 
-      <div className="max-w-5xl mx-auto px-5 mt-6 ">
+        {/* Intro card */}
+        <Card>
+          <CardContent className="p-6 flex flex-col gap-3">
+            <p className="text-muted-foreground">
+              Documentos y guías oficiales del Instituto Nacional de Salud (INS) y el Ministerio de Salud (MINSA).
+            </p>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Buscar documentos..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-         <section className="bg-white p-6 md:p-8 rounded-3xl shadow-lg mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Documentos y guías oficiales del Instituto Nacional de Salud (INS) y el Ministerio de Salud (MINSA).
-          </h2>
-        
-        </section>
-
-        {/* Grid de Documentos - Responsive (1 columna en móvil, 2 en desktop) */}
+        {/* Document grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {documents.map((doc) => (
-            <Link
-              key={doc.slug}
-              to={`/biblioteca/${doc.slug}`}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden 
-                         transition-all duration-300 transform 
-                         hover:shadow-xl hover:scale-[1.02] group cursor-pointer"
-            >
-              {/* Contenido de la Tarjeta */}
-              <div className="flex flex-col h-full">
-                
-                {/* Preview Image */}
-                <div className="h-40 overflow-hidden bg-gray-200 flex items-center justify-center">
+          {filtered.map((doc) => (
+            <Link key={doc.slug} to={`/biblioteca/${doc.slug}`} className="block group">
+              <Card className="overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 h-full">
+                <div className="h-40 overflow-hidden bg-muted">
                   <img
-                    src={doc.previewImg} 
+                    src={doc.previewImg}
                     alt={`Preview de ${doc.title}`}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     onError={(e) => {
-                      e.target.onerror = null; 
-                      e.target.src = "https://via.placeholder.com/600x400?text=PDF+Preview"; // Fallback por si la imagen no existe
+                      e.target.onerror = null
+                      e.target.src = "https://via.placeholder.com/600x400?text=PDF+Preview"
                     }}
                   />
                 </div>
-                
-                {/* Texto */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">
-                      {doc.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm">
-                      {doc.description}
-                    </p>
+                <CardContent className="p-5 flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <FileText className="size-4 text-primary shrink-0" />
+                    <Badge variant="secondary" className="text-xs">{doc.source}</Badge>
+                    <span className="text-xs text-muted-foreground">{doc.date}</span>
                   </div>
-                  <span className="mt-4 text-sm font-semibold text-blue-600 group-hover:text-blue-800">
-                    Ver documento →
+                  <h3 className="font-heading font-bold text-card-foreground group-hover:text-primary transition-colors line-clamp-2">
+                    {doc.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground line-clamp-3">
+                    {doc.description}
+                  </p>
+                  <span className="text-sm font-semibold text-primary group-hover:text-primary/80 flex items-center gap-1 mt-auto pt-2">
+                    Ver documento <ExternalLink className="size-3" />
                   </span>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             </Link>
           ))}
         </div>
 
-    {/* 🔘 Botón Volver */}
-        <div className="flex justify-center mt-8">
-        <Link
-            to="/"
-            className="inline-block border-2 border-white text-white hover:bg-white hover:text-indigo-700 font-semibold py-2 px-6 rounded-full shadow-md transition-all duration-300"
-        >
+        {filtered.length === 0 && (
+          <div className="flex flex-col items-center gap-3 py-16 text-muted-foreground">
+            <Search className="size-12 text-muted-foreground/30" />
+            <p className="text-lg font-medium">Sin resultados</p>
+            <p className="text-sm">No se encontraron documentos con ese criterio de búsqueda.</p>
+          </div>
+        )}
+
+        <div className="flex justify-center">
+          <Button variant="link" nativeButton={false} render={<Link to="/" />}>
+            <ArrowLeft data-icon="inline-start" />
             Volver al Menú Principal
-        </Link>
-        </div>  
+          </Button>
+        </div>
       </div>
     </div>
-  );
+    </>
+  )
 }

@@ -1,5 +1,5 @@
-import React from "react";
-import MenuItem from "./menu-item";
+import { Bot, BookOpen, Building2, UtensilsCrossed, Library, Settings } from "lucide-react"
+import MenuItem from "./menu-item"
 
 const itemBebe = {
   icon: "👶",
@@ -11,65 +11,55 @@ const itemBebe = {
 const itemsPublicos = [
 
   {
-    icon: "🤖",
+    icon: Bot,
     title: "Chatbot ANMI",
     description:
       "Conversa con nuestro asistente virtual sobre nutrición infantil y prevención de anemia para bebés de 6 a 12 meses.",
-    type: "chatbot",
+    route: "/chatbot",
   },
   {
-    icon: "📚",
+    icon: BookOpen,
     title: "Información Nutricional",
     description:
       "Guías sobre alimentos ricos en hierro, vitaminas y nutrientes esenciales para el desarrollo infantil.",
-    type: "info",
+    route: "/informacion-nutricional",
   },
   {
-    icon: "🏥",
+    icon: Building2,
     title: "Servicios del Estado",
     description:
       "Información sobre programas gubernamentales de apoyo alimentario y servicios de salud disponibles.",
-    type: "servicios",
+    route: "/servicios-estado",
   },
   {
-    icon: "🍽️",
+    icon: UtensilsCrossed,
     title: "Guía de Platillos Nutritivos",
     description:
       "Recetas saludables y fáciles de preparar, adaptadas a las diferentes etapas del desarrollo del bebé.",
-    type: "recetas",
+    route: "/guia-platillos",
   },
   {
-    icon: "📖",
+    icon: Library,
     title: "Biblioteca de Documentos",
     description:
       "Acceso a documentos oficiales del MINSA, OMS y otras fuentes verificadas sobre salud materno-infantil.",
-    type: "biblioteca",
+    route: "/biblioteca",
   },
   {
-    icon: "⚙️",
+    icon: Settings,
     title: "Configuración y Privacidad",
     description:
       "Gestiona tus datos personales, revisa nuestra política de privacidad y términos de uso.",
-    type: "config",
+    route: "/configuracion",
   },
-];
+]
 
 export default function MenuGrid() {
   return (
-
-    <div className=" mx-auto p-4 space-y-6">
-      <div className="seccion-privada">
-        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">Mi Espacio Personal</h3>
-        <MenuItem {...itemBebe} />
-      </div>
-
-      <hr className="border-gray-200" />
-      <div className="menu-grid">
-        {itemsPublicos.map((item, index) => (
-          <MenuItem key={index} {...item} />
-        ))}
-      </div>
+    <div className="max-w-5xl mx-auto px-4 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      {itemsPublicos.map((item, index) => (
+        <MenuItem key={index} {...item} />
+      ))}
     </div>
-
-  );
+  )
 }

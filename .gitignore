@@ -25,7 +25,8 @@ captures
 *.njsproj
 *.sln
 *.sw?
-
+docs
 .env
-
+.playwright-mcp
+captures
 .vercel

@@ -1,156 +1,174 @@
-// src/pages/configuracion-page.jsx
-
-import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Aseguramos importar 'Link'
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import PageMeta from "@/components/page-meta"
+import { useTheme } from "../lib/ThemeContext"
+import { ArrowLeft, Download, Trash2, Shield, Smartphone, SunMoon, Sun, Moon } from "lucide-react"
 
 export default function Configuracion() {
-  const navigate = useNavigate();
+  const { dark, toggle } = useTheme()
+  const [installPrompt, setInstallPrompt] = useState(null)
 
-  const [installPrompt, setInstallPrompt] = useState(null);
-
-  // ================================
-  // Capturar beforeinstallprompt
-  // ================================
   useEffect(() => {
     const handler = (e) => {
-      e.preventDefault();
-      window._anmiInstallPrompt = e;
-      setInstallPrompt(e);
-    };
+      e.preventDefault()
+      window._anmiInstallPrompt = e
+      setInstallPrompt(e)
+    }
 
-    // Si ya se disparó antes, recuperar
     if (window._anmiInstallPrompt) {
-      setInstallPrompt(window._anmiInstallPrompt);
+      setInstallPrompt(window._anmiInstallPrompt)
     }
 
-    window.addEventListener("beforeinstallprompt", handler);
+    window.addEventListener("beforeinstallprompt", handler)
+    return () => window.removeEventListener("beforeinstallprompt", handler)
+  }, [])
 
-    return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
-
-  // ================================
-  // Forzar instalación si es posible
-  // ================================
   const handleInstall = async () => {
-    // 1. Si tenemos el evento real de instalación
     if (installPrompt) {
-      installPrompt.prompt();
-      await installPrompt.userChoice;
-      window._anmiInstallPrompt = null;
-      setInstallPrompt(null);
-      return;
+      installPrompt.prompt()
+      await installPrompt.userChoice
+      window._anmiInstallPrompt = null
+      setInstallPrompt(null)
+      return
     }
 
-    // 2. Si ya está instalada (standalone)
     if (window.matchMedia("(display-mode: standalone)").matches) {
-      alert("La aplicación ya está instalada en tu dispositivo.");
-      return;
+      alert("La aplicación ya está instalada en tu dispositivo.")
+      return
     }
 
-    // 3. Intento extra para algunos Android
     if (navigator.standalone) {
-      alert("La aplicación ya está instalada.");
-      return;
+      alert("La aplicación ya está instalada.")
+      return
     }
 
-    // 4. Si no se puede instalar
     alert(
       "Tu dispositivo no permite solicitar la instalación automáticamente. " +
       "Puedes instalarla manualmente desde el menú del navegador (⋮ > Instalar aplicación)."
-    );
-  };
+    )
+  }
 
-  // ====================
-  // Limpiar caché (Versión mejorada)
-  // ====================
   const handleClearCache = async () => {
     try {
-      const names = await caches.keys(); 
-      const deletionPromises = names.map(name => caches.delete(name));
-      await Promise.all(deletionPromises); 
-
-      alert("La caché ha sido eliminada completamente.");
+      const names = await caches.keys()
+      await Promise.all(names.map(name => caches.delete(name)))
+      alert("La caché ha sido eliminada completamente.")
     } catch (error) {
-      console.error("Error al eliminar la caché:", error);
-      alert("Error: No se pudo eliminar la caché.");
+      console.error("Error al eliminar la caché:", error)
+      alert("Error: No se pudo eliminar la caché.")
     }
-  };
+  }
+
+  const settings = [
+    {
+      icon: Smartphone,
+      title: "Instalar App",
+      description: "Añade ANMI a tu dispositivo para acceso rápido y sin navegador.",
+      onClick: handleInstall,
+    },
+    {
+      icon: Trash2,
+      title: "Eliminar caché",
+      description: "Borra datos guardados y fuerza una actualización completa.",
+      onClick: handleClearCache,
+    },
+    {
+      icon: Shield,
+      title: "Manifiesto de Privacidad",
+      description: "Aprende cómo protegemos tus datos y cómo funciona la información.",
+      onClick: null,
+      to: "/privacidad-viewer",
+    },
+  ]
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="max-w-6xl mx-auto mb-8">
-        <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-            ⚙️ Configuración
+    <>
+      <PageMeta title="Configuración" description="Personaliza la aplicación ANMI, administra datos y privacidad" />
+      <div className="flex flex-col px-4 py-6">
+      <div className="w-full max-w-5xl mx-auto flex flex-col gap-6">
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" aria-label="Volver al inicio" nativeButton={false} render={<Link to="/" />}>
+            <ArrowLeft />
+          </Button>
+          <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground">
+            Configuración
           </h1>
-          <p className="text-gray-600 text-lg">Ajustes de tu aplicación ANMI</p>
-          <div className="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
-            <p className="text-sm text-gray-700">
-              ⚠️ <strong>Importante:</strong> Configura opciones del sistema o instala
-              la app en tu dispositivo.
-            </p>
-          </div>
+        </div>
+
+        {/* Intro card */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="font-heading text-xl">Configuración y Privacidad</CardTitle>
+            <CardDescription>
+              Ajustes de tu aplicación ANMI — configura opciones del sistema o instala la app en tu dispositivo.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        {/* Theme selector */}
+        <Card>
+          <CardContent className="p-6 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <SunMoon className="size-8 text-primary" />
+              <div>
+                <CardTitle className="font-heading">Apariencia</CardTitle>
+                <CardDescription>
+                  {dark ? "Modo oscuro activado" : "Modo claro activado"}
+                </CardDescription>
+              </div>
+            </div>
+            <Button
+              variant={dark ? "default" : "outline"}
+              size="sm"
+              onClick={toggle}
+              className="gap-2 min-w-[120px]"
+            >
+              {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
+              {dark ? "Modo claro" : "Modo oscuro"}
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Options grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {settings.map((item, idx) => (
+            item.to ? (
+              <Link key={idx} to={item.to} className="block group">
+                <Card className="transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 cursor-pointer h-full">
+                  <CardContent className="p-6 flex flex-col gap-3">
+                    <item.icon className="size-8 text-primary" />
+                    <CardTitle className="font-heading">{item.title}</CardTitle>
+                    <CardDescription>{item.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              </Link>
+            ) : (
+              <Card
+                key={idx}
+                className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+                onClick={item.onClick}
+              >
+                <CardContent className="p-6 flex flex-col gap-3">
+                  <item.icon className="size-8 text-primary" />
+                  <CardTitle className="font-heading">{item.title}</CardTitle>
+                  <CardDescription>{item.description}</CardDescription>
+                </CardContent>
+              </Card>
+            )
+          ))}
+        </div>
+
+        <div className="flex justify-center">
+          <Button variant="link" nativeButton={false} render={<Link to="/" />}>
+            <ArrowLeft data-icon="inline-start" />
+            Volver al Menú Principal
+          </Button>
         </div>
       </div>
-
-      {/* Opciones */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        {/* Instalar App (siempre disponible) */}
-        <div
-          onClick={handleInstall}
-          className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 cursor-pointer
-                     transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-        >
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">
-            📲 Instalar App
-          </h2>
-          <p className="text-gray-600">
-            Añade ANMI a tu dispositivo para acceso rápido y sin navegador.
-          </p>
-        </div>
-
-        {/* Eliminar caché */}
-        <div
-          onClick={handleClearCache}
-          className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 cursor-pointer 
-                     transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-        >
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">
-            🗑️ Eliminar caché
-          </h2>
-          <p className="text-gray-600">
-            Borra datos guardados y fuerza una actualización completa.
-          </p>
-        </div>
-
-        {/* Privacidad */}
-        <div
-          onClick={() => navigate("/privacidad-viewer")}
-          className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 cursor-pointer
-                     transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-        >
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">
-            🔐 Manifesto de Privacidad
-          </h2>
-          <p className="text-gray-600">
-            Aprende cómo protegemos tus datos y cómo funciona la información.
-          </p>
-        </div>
-
-      </div>
-
-      {/* 🔘 Botón Volver */} {/* <--- CÓDIGO AÑADIDO AQUÍ */}
-      <div className="flex justify-center mt-8">
-        <Link
-          to="/"
-          className="inline-block border-2 border-white text-white hover:bg-white hover:text-indigo-700 font-semibold py-2 px-6 rounded-full shadow-md transition-all duration-300"
-        >
-          Volver al Menú Principal
-        </Link>
-      </div> 
-
     </div>
-  );
+    </>
+  )
 }
