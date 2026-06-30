@@ -1,7 +1,15 @@
 import { Bot, BookOpen, Building2, UtensilsCrossed, Library, Settings } from "lucide-react"
 import MenuItem from "./menu-item"
 
-const items = [
+const itemBebe = {
+  icon: "👶",
+  title: "Gestión de mi Bebé",
+  description: "Registra y haz seguimiento al crecimiento, peso, talla y control de anemia de tu bebé.",
+  type: "bebe",
+};
+
+const itemsPublicos = [
+
   {
     icon: Bot,
     title: "Chatbot ANMI",
@@ -48,10 +56,21 @@ const items = [
 
 export default function MenuGrid() {
   return (
-    <div className="max-w-5xl mx-auto px-4 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-      {items.map((item, index) => (
-        <MenuItem key={index} {...item} />
-      ))}
+    <div className="max-w-5xl mx-auto px-4 mt-6 space-y-6">
+      <div>
+        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">Mi Espacio Personal</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <MenuItem icon={() => <span className="text-4xl">👶</span>} title={itemBebe.title} description={itemBebe.description} route="/login" />
+        </div>
+      </div>
+
+      <hr className="border-border" />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        {itemsPublicos.map((item, index) => (
+          <MenuItem key={index} {...item} />
+        ))}
+      </div>
     </div>
   )
 }

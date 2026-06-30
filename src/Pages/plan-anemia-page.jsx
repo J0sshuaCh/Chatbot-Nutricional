@@ -44,7 +44,7 @@ export default function PlanAnemiaPage() {
               El plan vigente es el <strong>Plan Multisectorial para la Prevención y Reducción de la
               Anemia Materno Infantil en el Perú 2024-2030</strong>.
             </p>
-            <div className="w-full rounded-xl overflow-hidden shadow-md">
+            <div className="w-full rounded-xl overflow-hidden shadow-sm">
               <img
                 src="https://pbs.twimg.com/media/DrfZsvLW4AA7iM5.jpg"
                 alt="Plan Nacional contra la Anemia"
