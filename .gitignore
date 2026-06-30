@@ -30,3 +30,7 @@ docs
 .playwright-mcp
 captures
 .vercel
+
+# opencode
+.agents/
+skills-lock.json
