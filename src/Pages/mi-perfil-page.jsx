@@ -4,7 +4,7 @@ import { useAuth } from '../lib/AuthContext'
 import { getBebes, createBebe, deleteBebe } from '../services/bebe.service'
 import { getAlergias, createAlergia, deleteAlergia } from '../services/alergia.service'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
