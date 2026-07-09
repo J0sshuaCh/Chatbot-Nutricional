@@ -148,7 +148,17 @@ ${prompt}`;
 
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const result = await model.generateContent(finalPrompt);
-    const response = await result.response;
+    const response = result.response;
+
+    if (!response.candidates || response.candidates.length === 0) {
+      const feedback = response.promptFeedback?.blockReason || 'unknown';
+      console.warn('[Gemini] Respuesta bloqueada:', feedback);
+      return res.status(200).json({
+        text: 'Lo siento, no puedo responder a esa pregunta por politicas de seguridad.',
+        timestamp: new Date().toISOString(),
+      });
+    }
+
     const text = response.text();
 
     res.status(200).json({
