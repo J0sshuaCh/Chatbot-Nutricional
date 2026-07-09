@@ -95,7 +95,7 @@ export default function ChatbotPage() {
             </div>
           </CardHeader>
           <CardContent className="flex-1 flex flex-col p-0">
-            <div className="flex-1 overflow-y-auto px-4 py-4">
+            <div className="flex-1 overflow-y-auto min-h-0 px-4 py-4">
               <div className="flex flex-col gap-4">
                 {messages.map((msg) => (
                   <div
