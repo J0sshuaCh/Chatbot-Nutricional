@@ -20,7 +20,7 @@ try {
   console.warn('[RAG] No se pudo cargar data.json:', e.message);
 }
 
-const MODELS = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];
+const MODELS = ['gemini-3.1-flash-lite', 'gemini-2.5-flash-lite'];
 
 function cosineSimilarity(a, b) {
   let dot = 0, magA = 0, magB = 0;
