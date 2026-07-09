@@ -1,5 +1,6 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+﻿import { GoogleGenerativeAI } from '@google/generative-ai';
 import { createClient } from '@supabase/supabase-js';
+import fs from 'fs';
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
@@ -9,6 +10,46 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 });
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+
+let knowledgeBase = { chunks: [], embeddings: [] };
+try {
+  const raw = fs.readFileSync('./api/data.json', 'utf-8');
+  knowledgeBase = JSON.parse(raw);
+  console.log('[RAG] Cargados ' + knowledgeBase.chunks.length + ' chunks de conocimiento');
+} catch (e) {
+  console.warn('[RAG] No se pudo cargar data.json:', e.message);
+}
+
+function cosineSimilarity(a, b) {
+  let dot = 0, magA = 0, magB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    magA += a[i] * a[i];
+    magB += b[i] * b[i];
+  }
+  return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+}
+
+async function buscarDocumentos(query) {
+  if (knowledgeBase.chunks.length === 0) return [];
+
+  try {
+      const model = genAI.getGenerativeModel({ model: 'gemini-embedding-001' });
+    const result = await model.embedContent(query);
+    const embedding = result.embedding.values;
+
+    const scored = knowledgeBase.embeddings.map((emb, i) => ({
+      ...knowledgeBase.chunks[i],
+      similarity: cosineSimilarity(embedding, emb),
+    }));
+
+    scored.sort((a, b) => b.similarity - a.similarity);
+    return scored.slice(0, 3);
+  } catch (error) {
+    console.warn('[RAG] Error:', error.message);
+    return [];
+  }
+}
 
 async function obtenerContextoBebe(userId) {
   try {
@@ -59,6 +100,7 @@ async function obtenerContextoBebe(userId) {
   }
 }
 
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -80,6 +122,17 @@ export default async function handler(req, res) {
       contextoBD = await obtenerContextoBebe(userId);
     }
 
+    let docsTexto = '';
+    try {
+      const docs = await buscarDocumentos(prompt);
+      if (docs.length > 0) {
+        docsTexto = 'INFORMACION DE DOCUMENTOS DE REFERENCIA:\n' +
+          docs.map(d => '[' + d.fileName + '] ' + d.content.slice(0, 500)).join('\n\n') + '\n\n';
+      }
+    } catch (e) {
+      console.warn('[RAG] Error en busqueda:', e.message);
+    }
+
     const contextoFinal = contextoBD
       ? `INFORMACION DEL USUARIO (desde base de datos):\n${contextoBD}\n\n`
       : '';
@@ -88,9 +141,9 @@ export default async function handler(req, res) {
 Responde EN ESPANOL, con formato Markdown.
 Usa la informacion del usuario para personalizar la respuesta.
 Si hay alergias registradas, no recomiendes esos alimentos.
-Si la informacion especifica no esta disponible, usa tu conocimiento general indicando la fuente.
+PRIORIZA la informacion de los documentos de referencia sobre tu conocimiento general.\nSi la informacion especifica no esta disponible en los documentos, usa tu conocimiento general indicando la fuente.
 
-${contextoFinal}PREGUNTA DEL USUARIO:
+${docsTexto}${contextoFinal}PREGUNTA DEL USUARIO:
 ${prompt}`;
 
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
@@ -107,3 +160,7 @@ ${prompt}`;
     res.status(500).json({ error: 'Error interno del servidor: ' + error.message });
   }
 }
+
+
+
+

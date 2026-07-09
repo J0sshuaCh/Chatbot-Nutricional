@@ -1,0 +1,34 @@
+﻿## Resumen
+
+Este PR trae los cambios acumulados de la rama developfrontend a master.
+
+## Cambios principales
+
+### Nuevas funcionalidades
+- Seccion "Mi Espacio Personal" en el menu principal
+- Vistas de bebes: AllergiesPage, BabiesPage, BabyManagerPage, MedicalHistoryPage
+- Pagina de Login con autenticacion
+- Pagina de Recetas con filtros de busqueda
+- Autenticacion completa: AuthContext, AuthProvider, ProtectedRoute, PublicRoute
+- Store: AuthStore, BabySelectStore
+- Servicios: alergiaBebeService, allergiesService, analisisService, babiesServices, recetasService
+
+### Refactor y mejoras
+- Migracion de componentes Input y Select a base-ui
+- Migracion de imports de supabase y useAuth a lib/
+- Optimizacion de componentes Input y Select
+- Migracion de clases CSS a theme tokens con soporte dark mode
+- Configuracion de paths en jsconfig.json
+
+### Dependencias
+- Actualizacion de librerias y package-lock.json
+- Configuracion de Supabase client
+
+### UI/UX
+- Sidebar, Encabezado, tarjetas (BabyProfileCard, ControlCard, etc.)
+- Graficos (Lineal, ContainerGraficas)
+- Componentes de UI (BotonPrimary, SelectSearchable, Loading, etc.)
+
+## Archivos modificados
+- 86 archivos cambiados
+- +5,437 inserciones / -372 eliminaciones

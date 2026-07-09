@@ -22,4 +22,20 @@ export default [
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    files: ['api/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      globals: globals.node,
+      sourceType: 'module',
+    },
+  },
+  {
+    files: ['scripts/**/*.js', 'convert_pdfs.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      globals: globals.node,
+      sourceType: 'module',
+    },
+  },
 ]
