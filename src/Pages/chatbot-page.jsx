@@ -7,7 +7,6 @@ import PageMeta from "@/components/page-meta"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/Input"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Send, Bot, User, ArrowLeft } from "lucide-react"
 
@@ -96,7 +95,7 @@ export default function ChatbotPage() {
             </div>
           </CardHeader>
           <CardContent className="flex-1 flex flex-col p-0">
-            <ScrollArea className="flex-1 px-4 py-4">
+            <div className="flex-1 overflow-y-auto px-4 py-4">
               <div className="flex flex-col gap-4">
                 {messages.map((msg) => (
                   <div
@@ -139,7 +138,7 @@ export default function ChatbotPage() {
                 ))}
                 <div ref={messagesEndRef} />
               </div>
-            </ScrollArea>
+            </div>
 
             {/* Input form */}
             <form onSubmit={handleSubmit} className="flex gap-2 border-t p-4">
