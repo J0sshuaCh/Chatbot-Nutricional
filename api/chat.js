@@ -20,6 +20,8 @@ try {
   console.warn('[RAG] No se pudo cargar data.json:', e.message);
 }
 
+const MODELS = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-2.0-flash-lite'];
+
 function cosineSimilarity(a, b) {
   let dot = 0, magA = 0, magB = 0;
   for (let i = 0; i < a.length; i++) {
@@ -30,11 +32,33 @@ function cosineSimilarity(a, b) {
   return dot / (Math.sqrt(magA) * Math.sqrt(magB));
 }
 
+async function generateWithRetry(prompt) {
+  let lastError = null;
+  for (const modelName of MODELS) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const model = genAI.getGenerativeModel({ model: modelName });
+        const result = await model.generateContent(prompt);
+        return result;
+      } catch (error) {
+        lastError = error;
+        if (error.status === 429 && attempt === 0) {
+          console.warn(`[Gemini] Cuota excedida en ${modelName}, reintentando...`);
+          await new Promise(r => setTimeout(r, 2000));
+          continue;
+        }
+        break;
+      }
+    }
+  }
+  throw lastError;
+}
+
 async function buscarDocumentos(query) {
   if (knowledgeBase.chunks.length === 0) return [];
 
   try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-embedding-001' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-embedding-001' });
     const result = await model.embedContent(query);
     const embedding = result.embedding.values;
 
@@ -146,8 +170,7 @@ PRIORIZA la informacion de los documentos de referencia sobre tu conocimiento ge
 ${docsTexto}${contextoFinal}PREGUNTA DEL USUARIO:
 ${prompt}`;
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-    const result = await model.generateContent(finalPrompt);
+    const result = await generateWithRetry(finalPrompt);
     const response = result.response;
 
     if (!response.candidates || response.candidates.length === 0) {
@@ -167,6 +190,11 @@ ${prompt}`;
     });
   } catch (error) {
     console.error('Error calling Gemini API:', error);
+    if (error.status === 429) {
+      return res.status(429).json({
+        error: 'Cuota de Gemini API agotada. Espera unos minutos o crea una nueva API Key en https://aistudio.google.com/apikey',
+      });
+    }
     res.status(500).json({ error: 'Error interno del servidor: ' + error.message });
   }
 }
