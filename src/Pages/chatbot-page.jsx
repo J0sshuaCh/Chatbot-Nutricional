@@ -10,10 +10,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/Input"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Send, Bot, User, ArrowLeft, ChevronDown } from "lucide-react"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Send, Bot, User, ArrowLeft, ChevronDown, Plus, Trash2, MessageSquare, X } from "lucide-react"
 import { BabyNino } from "@/components/icon/BabyNino"
 import { BabyNina } from "@/components/icon/BabyNina"
 import { calculateAge } from "@/utils/calculateAge"
+import {
+  createSession,
+  getSessions,
+  renameSession,
+  deleteSession,
+  getMessages,
+  saveMessage,
+} from "../services/chat.service"
 
 export default function ChatbotPage() {
   const { session } = useAuth()
@@ -32,6 +41,9 @@ export default function ChatbotPage() {
       sender: "bot"
     }
   ])
+  const [sessions, setSessions] = useState([])
+  const [activeSessionId, setActiveSessionId] = useState(null)
+  const [showSessions, setShowSessions] = useState(false)
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
@@ -66,6 +78,43 @@ export default function ChatbotPage() {
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [dropdownOpen])
+
+  useEffect(() => {
+    if (!session?.user?.id) {
+      setSessions([])
+      setActiveSessionId(null)
+      return
+    }
+
+    let cancelled = false
+
+    async function loadSessions() {
+      const userSessions = await getSessions(session.user.id)
+      if (cancelled) return
+
+      if (userSessions.length > 0) {
+        setSessions(userSessions)
+        setActiveSessionId(userSessions[0].id_session)
+        const msgs = await getMessages(userSessions[0].id_session)
+        if (!cancelled && msgs.length > 0) {
+          setMessages(msgs.map(m => ({
+            id: m.id_chat,
+            text: m.content,
+            sender: m.role,
+          })))
+        }
+      } else {
+        const newSession = await createSession(session.user.id)
+        if (!cancelled) {
+          setSessions([newSession])
+          setActiveSessionId(newSession.id_session)
+        }
+      }
+    }
+
+    loadSessions()
+    return () => { cancelled = true }
+  }, [session?.user?.id])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -143,6 +192,20 @@ export default function ChatbotPage() {
       const data = await res.json()
       const botMessage = { id: Date.now() + 1, text: data.text, sender: "bot" }
       setMessages((prev) => [...prev, botMessage])
+
+      if (session?.user?.id && activeSessionId) {
+        await saveMessage(activeSessionId, session.user.id, 'user', inputPrompt)
+        await saveMessage(activeSessionId, session.user.id, 'assistant', data.text)
+
+        const currentSession = sessions.find(s => s.id_session === activeSessionId)
+        if (currentSession?.title === 'Nueva conversación') {
+          const newTitle = inputPrompt.slice(0, 60) + (inputPrompt.length > 60 ? '...' : '')
+          const updated = await renameSession(activeSessionId, newTitle)
+          if (updated) {
+            setSessions(prev => prev.map(s => s.id_session === activeSessionId ? updated : s))
+          }
+        }
+      }
     } catch (error) {
       console.error("Error:", error)
       setMessages((prev) => [...prev, { id: Date.now(), text: "Lo siento, hubo un error de conexión.", sender: "bot" }])
@@ -151,12 +214,102 @@ export default function ChatbotPage() {
     }
   }
 
+  async function handleSessionSelect(sessionId) {
+    setActiveSessionId(sessionId)
+    const msgs = await getMessages(sessionId)
+    if (msgs.length > 0) {
+      setMessages(msgs.map(m => ({
+        id: m.id_chat,
+        text: m.content,
+        sender: m.role,
+      })))
+    } else {
+      setMessages([{ id: 1, text: "¡Hola! 👋 Soy tu Asistente de Nutrición Materno Infantil (ANMI). ¿En qué puedo ayudarte hoy?", sender: "bot" }])
+    }
+    if (window.innerWidth < 768) {
+      setShowSessions(false)
+    }
+  }
+
+  async function handleNewSession() {
+    if (!session?.user?.id) return
+    const newSession = await createSession(session.user.id)
+    setSessions(prev => [newSession, ...prev])
+    setActiveSessionId(newSession.id_session)
+    setMessages([{ id: 1, text: "¡Hola! 👋 Soy tu Asistente de Nutrición Materno Infantil (ANMI). ¿En qué puedo ayudarte hoy?", sender: "bot" }])
+    if (window.innerWidth < 768) {
+      setShowSessions(false)
+    }
+  }
+
+  async function handleDeleteSession(sessionId) {
+    if (!confirm('¿Eliminar esta conversación?')) return
+    await deleteSession(sessionId)
+    setSessions(prev => prev.filter(s => s.id_session !== sessionId))
+    if (activeSessionId === sessionId) {
+      const remaining = sessions.filter(s => s.id_session !== sessionId)
+      if (remaining.length > 0) {
+        handleSessionSelect(remaining[0].id_session)
+      } else if (session?.user?.id) {
+        handleNewSession()
+      } else {
+        setActiveSessionId(null)
+        setMessages([{ id: 1, text: "¡Hola! 👋 Soy tu Asistente de Nutrición Materno Infantil (ANMI). ¿En qué puedo ayudarte hoy?", sender: "bot" }])
+      }
+    }
+  }
+
   return (
     <>
       <PageMeta title="Chatbot" description="Consulta con el asistente nutricional ANMI sobre alimentación y prevención de anemia infantil" />
+
+      {/* Mobile sessions overlay */}
+      {session?.user?.id && showSessions && (
+        <div className="fixed inset-0 z-50 bg-background flex flex-col md:hidden">
+          <div className="flex items-center justify-between p-4 border-b">
+            <h2 className="font-semibold">Conversaciones</h2>
+            <Button variant="ghost" size="icon" onClick={() => setShowSessions(false)}>
+              <X className="size-5" />
+            </Button>
+          </div>
+          <div className="p-3">
+            <Button variant="outline" className="w-full justify-start gap-2" onClick={handleNewSession}>
+              <Plus className="size-4" />
+              Nueva conversación
+            </Button>
+          </div>
+          <ScrollArea className="flex-1">
+            <div className="flex flex-col gap-1 p-2">
+              {sessions.map(s => (
+                <div
+                  key={s.id_session}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors group",
+                    s.id_session === activeSessionId
+                      ? "bg-accent font-medium"
+                      : "hover:bg-accent/50"
+                  )}
+                  onClick={() => handleSessionSelect(s.id_session)}
+                >
+                  <MessageSquare className="size-4 shrink-0 text-muted-foreground" />
+                  <span className="flex-1 truncate">{s.title}</span>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDeleteSession(s.id_session) }}
+                    className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+                    aria-label="Eliminar conversación"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
+      )}
+
       <div className="flex flex-col items-center px-4 py-6">
-      <div className="w-full max-w-3xl flex flex-col gap-4">
-        {/* Sticky back + title */}
+      <div className={cn("w-full flex flex-col gap-4 transition-all", showSessions && session?.user?.id ? "max-w-5xl" : "max-w-3xl")}>
+        {/* Sticky back + title + sessions toggle */}
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
@@ -169,6 +322,17 @@ export default function ChatbotPage() {
           <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground">
             Chatbot ANMI
           </h1>
+          {session?.user?.id && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="ml-auto"
+              onClick={() => setShowSessions(!showSessions)}
+              aria-label="Conversaciones"
+            >
+              <MessageSquare className="size-5" />
+            </Button>
+          )}
         </div>
 
         {/* Baby selector */}
@@ -220,8 +384,50 @@ export default function ChatbotPage() {
           </div>
         )}
 
+        {/* Chat area with optional desktop sidebar */}
+        <div className="flex gap-4">
+          {session?.user?.id && showSessions && (
+            <div className="hidden md:flex w-72 shrink-0 flex-col rounded-lg border bg-card">
+              <div className="flex items-center justify-between p-3 border-b">
+                <h2 className="font-semibold text-sm">Conversaciones</h2>
+              </div>
+              <div className="p-2">
+                <Button variant="ghost" className="w-full justify-start gap-2 text-sm" onClick={handleNewSession}>
+                  <Plus className="size-4" />
+                  Nueva conversación
+                </Button>
+              </div>
+              <ScrollArea className="flex-1">
+                <div className="flex flex-col gap-1 p-2 pt-0">
+                  {sessions.map(s => (
+                    <div
+                      key={s.id_session}
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2 rounded-md text-sm cursor-pointer transition-colors group",
+                        s.id_session === activeSessionId
+                          ? "bg-accent font-medium"
+                          : "hover:bg-accent/50"
+                      )}
+                      onClick={() => handleSessionSelect(s.id_session)}
+                    >
+                      <MessageSquare className="size-4 shrink-0 text-muted-foreground" />
+                      <span className="flex-1 truncate">{s.title}</span>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleDeleteSession(s.id_session) }}
+                        className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+                        aria-label="Eliminar conversación"
+                      >
+                        <Trash2 className="size-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          )}
+
         {/* Chat card */}
-        <Card className="flex flex-col h-[calc(100dvh-280px)] min-h-[400px] md:min-h-[500px]">
+        <Card className="flex-1 flex flex-col h-[calc(100dvh-280px)] min-h-[400px] md:min-h-[500px]">
           <CardHeader className="border-b">
             <div className="flex items-center gap-2">
               <Bot className="size-5 text-primary" aria-hidden="true" />
@@ -300,6 +506,7 @@ export default function ChatbotPage() {
             </form>
           </CardContent>
         </Card>
+        </div>
 
         <div className="flex justify-center">
           <Button variant="link" nativeButton={false} render={<Link to="/" />}>
