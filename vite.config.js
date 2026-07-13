@@ -17,7 +17,8 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       workbox: {
         navigateFallback: '/index.html',
-        globPatterns: ['**/*.{js,css,html,png,svg,ico,json}']
+        globPatterns: ['**/*.{js,css,html,png,svg,ico,json}'],
+        cleanupOutdatedCaches: true,
       },
       manifest: {
         name: 'ANMI - Asistente Nutricional Materno Infantil',

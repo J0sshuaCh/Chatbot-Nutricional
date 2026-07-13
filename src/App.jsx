@@ -67,23 +67,24 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <Routes>
-            <Route element={<PublicRoute redirectTo="/manager-baby" />}>
-              <Route element={<AppLayout />}>
-                <Route path="/" element={<PageTransition><MenuGrid /></PageTransition>} />
-                <Route path="/chatbot" element={<PageTransition><ChatbotPage /></PageTransition>} />
-                <Route path="/informacion-nutricional" element={<PageTransition><InformacionNutricional /></PageTransition>} />
-                <Route path="/servicios-estado" element={<PageTransition><ServiciosDelEstado /></PageTransition>} />
-                <Route path="/configuracion" element={<PageTransition><Configuracion /></PageTransition>} />
-                <Route path="/servicios-estado/qali-warma" element={<PageTransition><QaliWarmaPage /></PageTransition>} />
-                <Route path="/servicios-estado/plan-anemia" element={<PageTransition><PlanAnemiaPage /></PageTransition>} />
-                <Route path="/servicios-estado/cuna-mas" element={<PageTransition><CunaMasPage /></PageTransition>} />
-                <Route path="/guia-platillos" element={<PageTransition><GuiaPlatillosPage /></PageTransition>} />
-                <Route path="/biblioteca" element={<PageTransition><BibliotecaPage /></PageTransition>} />
-                <Route path="/biblioteca/:slug" element={<PageTransition><DocumentViewerPage /></PageTransition>} />
-                <Route path="/privacidad-viewer" element={<PageTransition><PrivacidadViewerPage /></PageTransition>} />
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<PageTransition><MenuGrid /></PageTransition>} />
+              <Route path="/chatbot" element={<PageTransition><ChatbotPage /></PageTransition>} />
+              <Route path="/informacion-nutricional" element={<PageTransition><InformacionNutricional /></PageTransition>} />
+              <Route path="/servicios-estado" element={<PageTransition><ServiciosDelEstado /></PageTransition>} />
+              <Route path="/configuracion" element={<PageTransition><Configuracion /></PageTransition>} />
+              <Route path="/servicios-estado/qali-warma" element={<PageTransition><QaliWarmaPage /></PageTransition>} />
+              <Route path="/servicios-estado/plan-anemia" element={<PageTransition><PlanAnemiaPage /></PageTransition>} />
+              <Route path="/servicios-estado/cuna-mas" element={<PageTransition><CunaMasPage /></PageTransition>} />
+              <Route path="/guia-platillos" element={<PageTransition><GuiaPlatillosPage /></PageTransition>} />
+              <Route path="/biblioteca" element={<PageTransition><BibliotecaPage /></PageTransition>} />
+              <Route path="/biblioteca/:slug" element={<PageTransition><DocumentViewerPage /></PageTransition>} />
+              <Route path="/privacidad-viewer" element={<PageTransition><PrivacidadViewerPage /></PageTransition>} />
               <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
               <Route path="/mi-perfil" element={<PageTransition><MiPerfilPage /></PageTransition>} />
-              </Route>
+            </Route>
+
+            <Route element={<PublicRoute redirectTo="/manager-baby" />}>
               <Route path="/login" element={<Login />} />
             </Route>
 
